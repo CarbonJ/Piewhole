@@ -6,10 +6,10 @@
 | Task  | Status |
 | ------------- | ------------- |
 |  Environment build | Done |
-|  Database modeling | in progress |
+|  Database modeling | In progress |
 |  Testing setup  | tbd |
 |  Travis integration | tbd |
 |  Heroku setup | tbd |
-|  Web site design  | in progress |
+|  Front end design  | In progress |
 |  Full development | tbd |
 |  1.0 release  | tbd |
