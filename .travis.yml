@@ -7,4 +7,5 @@ env:
 before_script:
     - psql -c 'create database 'piewhole_test';' -U postgres
 script:
+    # basic tests
     - PYTHONPATH=. python3 tests/test_integration.py
