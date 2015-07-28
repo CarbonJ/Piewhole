@@ -1,11 +1,11 @@
 import datetime
-from sqlalchemy import  Column, Integer, Text, Float, ForeignKey, Date
+from sqlalchemy import  Column, Integer, String, Float, ForeignKey, Date
 from  . database  import Base, engine
 
 class Ranks(Base):
     __tablename__ = 'Ranks'
     id = Column(Integer, primary_key=True, unique=True)
-    rank = Column(Text(15), unique=True)
+    rank = Column(String(15), unique=True)
 
 
 class Weight(Base):
@@ -20,7 +20,7 @@ class Weight(Base):
 class Food(Base):
     __tablename__ = 'Food'
     id = Column(Integer, primary_key=True, unique=True)
-    food = Column(Text)
+    food = Column(String)
     food_date = Column(Date)
     rank_id = Column(Integer, ForeignKey('Ranks.id'))
     user_id = Column(Integer, ForeignKey('User.id'))
@@ -29,15 +29,15 @@ class Food(Base):
 class User(Base):
     __tablename__ = 'User'
     id = Column(Integer, primary_key=True, unique=True)
-    username = Column(Text)
-    email = Column(Text, unique=True)
-    password = Column(Text)
+    username = Column(String)
+    email = Column(String, unique=True)
+    password = Column(String)
 
 
 class Goals(Base):
     __tablename__ = 'Goals'
     id = Column(Integer, primary_key=True, unique=True)
     user_id = Column(Integer, ForeignKey('User.id'))
-    weight_goal = Column(Text)
+    weight_goal = Column(String)
 
 Base.metadata.create_all(engine)
