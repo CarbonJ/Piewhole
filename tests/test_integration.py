@@ -11,8 +11,8 @@ from piewhole.database import Base, engine, session
 if not 'CONFIG_PATH' in os.environ:
     os.environ['CONFIG_PATH'] = 'piewhole.config.TestingConfig'
 
-class DatabaseConnectionTest(unittest.TestCase):
-    def databaseSetup(self):
+class testDatabase(unittest.TestCase):
+    def testDatabaseSetup(self):
         '''Database connection, setup, and single user'''
         self.client = app.test_client()
         Base.metadata.create_all(engine)
@@ -22,10 +22,9 @@ class DatabaseConnectionTest(unittest.TestCase):
         session.add(self.user)
         session.commit()
 
-    def databaseTearDown(self):
+    def testDatabaseTearDown(self):
         '''Tear down of database'''
         session.close()
-        Base.engine.drop_all(engine)
-
+        Base.metadata.drop_all(engine)
 if __name__ == '__main__':
     unittest.main()
