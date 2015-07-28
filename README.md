@@ -7,8 +7,9 @@
 | ------------- | ------------- |
 |  Environment build | Done |
 |  Database modeling | In progress |
-|  Testing setup  | In progress |
-|  Travis integration | In progress |
+|  Database migration | tbd |
+|  Testing setup  | Base created |
+|  Travis integration | Base created |
 |  Heroku setup | tbd |
 |  Front end design  | In progress |
 |  Full development | tbd |
