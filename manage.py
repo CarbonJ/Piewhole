@@ -1,7 +1,6 @@
 import os
 from flask.ext.script import Manager
 
-from piewhole import app
 
 manager = Manager(app)
 
