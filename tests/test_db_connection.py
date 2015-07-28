@@ -1,6 +1,5 @@
 import os
 import unittest
-import piewhole
 
 #Configuration to use  testing config
 
