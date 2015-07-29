@@ -1,31 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Piewhole: Simple Food Diary</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-</head>
-<body>
-<nav role="navigation" class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span>
-            </button>
-            <a href="#" class="navbar-brand">Piewhole</a>
-        </div>
-        <!-- Collection of nav links and other content for toggling -->
-        <div id="navbarCollapse" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Login</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+{% extends "base.html" %}
+{% block content %}
+
 <div class="container">
     <div class="jumbotron">
             <h1>A very simple food diary</h1>
@@ -44,5 +19,5 @@
             <p>Eventtually some screenshots</p>
         </div>
 </div>
-</body>
-</html>
+
+{% endblock %}
