@@ -3,7 +3,7 @@ import unittest
 import urllib.parse as urlparse
 from werkzeug.security import generate_password_hash
 
-from piewhole import app
+from piewhole import piewhole
 from piewhole import models
 from piewhole.database import Base, engine, session
 
@@ -14,7 +14,7 @@ if not 'CONFIG_PATH' in os.environ:
 class testDatabase(unittest.TestCase):
     def testDatabaseSetup(self):
         '''Database connection, setup, and single user'''
-        self.client = app.test_client()
+        self.client = piewhole.test_client()
         Base.metadata.create_all(engine)
 
         self.user = models.User(username='justin', email='justin.hanssen@gmail.com', password=generate_password_hash('welcome1'))
