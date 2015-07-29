@@ -1,11 +1,16 @@
 language: python
 python:
-    - '3.4'
+- '3.4'
 install: pip install -r requirements.txt
 env:
-    - CONFIG_PATH=piewhole.config.TravisConfig
+- CONFIG_PATH=piewhole.config.TravisConfig
 before_script:
-    - psql -c 'create database 'piewhole_test';' -U postgres
+- psql -c 'create database 'piewhole_test';' -U postgres
 script:
-    # basic tests
-    - PYTHONPATH=. python3 tests/test_integration.py
+- PYTHONPATH=. python3 tests/test_integration.py
+notifications:
+  pushover:
+    api_key: XWrW7bihkcmR5brGCNgc6KhL+719nxBTVPsKSpnGtkTTcka5DB1EBs2XEURXDpkDWNHUctK3X+yfndi/TEM4EckVN5V+fQb/fGdgmxoPuYG1SVSHsJ/O3JS+wcoxjVWJW3lbNUy5NDdH2O8pxT7jy108jKZjak020AIuzMcVHc6EruM3d+vP9PG+BnVTmQBXQ6hj+SvU052yiBR+yoZvhHoczFqAE+KwAA9M713WoP0sbXxGleiSY4t1WpbaCvbqtMK6yy7470rXsqmI9SPvr+UQ3v551gcHBjfY6B7fvzC+Q9DQ1D4g+Op4B3aKM252pbtgO0g2e4bmK26t0FWkXMxJW/jfDmU1v4KCGPOaHE5b31ioQYlbybcy/S/8bg+UdDnqY97I4aCjsID1NE3mcfeBLzCWejUOfPWU7hQQPyWZjAKTXBLnmaR3iyxPizEyVag6YqGJzOETKRZipdLOeXU7p89WkPCAF2ZVpw+RLaYPbBsmeEDsJvi16mxW8nTHh7mzR+uM2akF1lyoBhXVlpuLbKaxi/7cUWMebJiV63e0zBaQMQ+CAXV4YBXgI8ADkCT+MVv+P3DTB4MR++VBrWgeUoXivNGALtqpmLQKJcLIX0e7eswINTgyHfs604fHvGhhJJGXq8kZOak6osdk1/OXnLM3tWwwGp82ZQeuhNQ=
+    users:
+    - CoME1bALeKXDBIgsZgPO2pVxU4B6uAkgbaxIYbb2cWZ5bIAMIqDrFOIvb81WjMADJchh+y8bQsFN4L6B226U2t7KZ69YhLeUFSLHIzFK5f2O0/NG4ALKCn6v6DY4WhAOwlOIakqQGaJkBiiQGPZPclsu6RrLwJFeQJEdBmE4V3Gujtv3SwDkAmIaTGpV4Gbb4mlf2hEBJ+O9/+xfNsdrhQGISJyV1ya9pEq1nn+a/+mTeen1wshqGKoXBJbWY1k8hdPl0Mql8+yPy/1EEgPKfFaQoLxO4SrNVCiE3auHMEgNdzo2Q1Xr337Q0gBaduYwQYgJ1++dBxfvZ2NPnreBz0R+SkIkEnZCguBA7Opj+ER4GXL/USmrPDoZPS7XmuamZ4oSqB1Wi8vAdRBfhSNtyUj9pVIAvXxdu+FrJyypX/LaSe2TSX+3BBofP7xqgtjOA1b5Ywti0l0TDO3ustpppSlnvUNRjQD5DaDj+OY5IB4q4XNBduQsacnzf+ziw0Gxi1UGSg3egjQck5ct/j6uAdAbNtACAvjQlriuKV+5wTAMO4mJKS2HW6uBrXrFKDMWM2FXGvCl4eHdHTEAd4QLDibeoiy1CrLOCf9mCaDU77WsKQ3Lyga8BiJHn+4upDW+gxh/Vw15D/5qGKuYiCVX80Uu+ljjUpRtvtXQ7sDMZas=
+    template: "%{repository} (%{commit}) : %{message} %{foo} - Build details: %{build_url}"
