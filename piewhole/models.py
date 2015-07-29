@@ -1,4 +1,5 @@
 import datetime
+from flask.ext.login import UserMixin
 from sqlalchemy import  Column, Integer, String, Float, ForeignKey, Date
 from  . database  import Base, engine
 
@@ -26,7 +27,7 @@ class Food(Base):
     user_id = Column(Integer, ForeignKey('User.id'))
 
 
-class User(Base):
+class User(Base, UserMixin):
     __tablename__ = 'User'
     id = Column(Integer, primary_key=True, unique=True)
     username = Column(String)
@@ -38,7 +39,7 @@ class Goals(Base):
     __tablename__ = 'Goals'
     id = Column(Integer, primary_key=True, unique=True)
     user_id = Column(Integer, ForeignKey('User.id'))
-    weight_goal = Column(String)
+    weight_goal = Column(Float)
     health_goal = Column(Float)
 
 Base.metadata.create_all(engine)
