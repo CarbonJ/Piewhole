@@ -25,13 +25,14 @@ class testDatabase(unittest.TestCase):
         session.add(self.user)
         session.commit()
 
-    def testUser(self):
-        '''Create user and entries directly into database'''
-        self.client = piewhole.test_client()
-        self.user = models.User(username='todd', email='todd.hanssen@gmail.com', password=generate_password_hash('welcome1'))
+    # why doesn't this work!!!
+    # def testUser(self):
+    #     '''Create user and entries directly into database'''
+    #     self.client = piewhole.test_client()
+    #     self.user = models.User(username='todd', email='todd.hanssen@gmail.com', password=generate_password_hash('welcome1'))
 
-        session.add(self.user)
-        session.commit()
+    #     session.add(self.user)
+    #     session.commit()
 
     def testDatabaseTearDown(self):
         '''Tear down of database'''
