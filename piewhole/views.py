@@ -1,5 +1,6 @@
-from piewhole import app
+from piewhole import piewhole
+from flask import render_template
 
-@app.route("/")
-def say_hi():
-    return 'Site is live'
+@piewhole.route("/")
+def index():
+    return render_template("intro.html")

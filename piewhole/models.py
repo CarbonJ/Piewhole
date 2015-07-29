@@ -39,5 +39,6 @@ class Goals(Base):
     id = Column(Integer, primary_key=True, unique=True)
     user_id = Column(Integer, ForeignKey('User.id'))
     weight_goal = Column(String)
+    health_goal = Column(Float)
 
 Base.metadata.create_all(engine)
