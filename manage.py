@@ -9,7 +9,7 @@ manager = Manager(piewhole)
 @manager.command
 def run():
     port = int(os.environ.get('PORT', 8080))
-    piewhole.run(host='10.0.10.21', port=port, debug=True)
+    piewhole.run(host='locke.local', port=port, debug=True)
 
 class DB(object):
     def __init__(self, metadata):
