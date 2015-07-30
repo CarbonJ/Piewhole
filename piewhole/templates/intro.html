@@ -17,6 +17,14 @@
             <div class="col-sm-6 col-md-4 col-lg-16">
             <h2>What can it do?</h2>
             <p>Eventtually some screenshots</p>
+            {% if current_user.is_anonymous() %}
+            You're <b>new</b>, create an account
+            {% endif %}
+
+            {% if current_user.is_authenticated() %}
+            You're <b>not</b> new, and are logged in
+            {% endif %}
+
         </div>
 </div>
 

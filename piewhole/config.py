@@ -3,7 +3,7 @@ import os
 class DevelopmentConfig(object):
     SQLALCHEMY_DATABASE_URI = 'postgresql://justin:justin@localhost:5432/piewhole'
     DEBUG = True
-    SECRET_KEY = os.environ.get('PIEWHOLEKEY', '')
+    SECRET_KEY = 'TEMPORARYKEY'
 
 class TestingConfig(object):
     SQLALCHEMY_DATABASE_URI = 'postgresql://justin:justin@localhost:5432/piewhole_test'
