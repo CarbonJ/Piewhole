@@ -16,7 +16,7 @@
             <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
                 <span class="sr-only">Toggle navigation</span>
             </button>
-            <a href="#" class="navbar-brand">Piewhole</a>
+            <a href="{{ url_for('index') }}" class="navbar-brand">Piewhole</a>
         </div>
         <!-- Collection of nav links and other content for toggling -->
         <div id="navbarCollapse" class="collapse navbar-collapse">
@@ -27,7 +27,7 @@
                             <li><a href="#">Weight</a></li>
                             <li><a href="#">Logout</a></li>
                     {% else %}
-                        <li><a href="#">Login</a></li>
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
                     {% endif %}
             </ul>
         </div>
