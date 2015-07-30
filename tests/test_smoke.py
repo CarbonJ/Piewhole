@@ -16,18 +16,27 @@ print()
 
 class testDatabase(unittest.TestCase):
     def setUp(self):
-        '''Database connection, setup, and single user'''
+        '''Database setUp'''
         Base.metadata.create_all(engine)
 
+    def testRank(self):
+        '''Create ranks'''
+        self.rank1 = models.Ranks(rank='good')
+        self.rank2 = models.Ranks(rank='ok')
+        self.rank3 = models.Ranks(rank='bad')
+
+        session.add_all([self.rank1, self.rank2, self.rank3])
+        session.commit()
+
     def testUser(self):
-        '''Create user and entries directly into database'''
+        '''Create user'''
         self.user = models.User(username='todd', email='todd.hanssen@gmail.com', password=generate_password_hash('welcome1'))
 
         session.add(self.user)
         session.commit()
 
     def tearDown(self):
-        '''Tear down of database'''
+        '''Database tearDown'''
         session.close()
         Base.metadata.drop_all(engine)
 if __name__ == '__main__':

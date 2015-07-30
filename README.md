@@ -11,7 +11,8 @@ Master Branch: [![Build Status](https://travis-ci.org/CarbonJ/Piewhole.svg)](htt
 |  Environment build | Done |
 |  Database modeling | In progress |
 |  Database migration | Done |
-|  Testing setup  | Base created |
+|  Testing setup  | Done |
+|  Testing assertions  | In progress |
 |  Travis & Pushover integration | Done |
 |  Heroku setup | tbd |
 |  Front end design  | In progress |
