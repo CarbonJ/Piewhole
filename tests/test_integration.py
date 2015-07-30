@@ -3,42 +3,36 @@ import unittest
 import urllib.parse as urlparse
 from werkzeug.security import generate_password_hash
 
-from piewhole import piewhole
-from piewhole import models
-from piewhole.database import Base, engine, session
-
 #Configuration to use testing config
 if not 'CONFIG_PATH' in os.environ:
     os.environ['CONFIG_PATH'] = 'piewhole.config.TestingConfig'
+
+from piewhole import piewhole
+from piewhole import models
+from piewhole.database import Base, engine, session
 
 print("CONFIG_PATH: {}".format(os.environ['CONFIG_PATH']))
 print()
 
 class testDatabase(unittest.TestCase):
-    def testDatabaseSetup(self):
+    def setUp(self):
         '''Database connection, setup, and single user'''
-        self.client = piewhole.test_client()
         Base.metadata.create_all(engine)
 
-        self.user = models.User(username='justin', email='justin.hanssen@gmail.com', password=generate_password_hash('welcome1'))
+    # why doesn't this work!!!
+    def testUser(self):
+        '''Create user and entries directly into database'''
+        self.user = models.User(username='todd', email='todd.hanssen@gmail.com', password=generate_password_hash('welcome1'))
 
         session.add(self.user)
         session.commit()
 
-    # why doesn't this work!!!
-    # def testUser(self):
-    #     '''Create user and entries directly into database'''
-    #     self.client = piewhole.test_client()
-    #     self.user = models.User(username='todd', email='todd.hanssen@gmail.com', password=generate_password_hash('welcome1'))
-
-    #     session.add(self.user)
-    #     session.commit()
-
-    def testDatabaseTearDown(self):
+    def tearDown(self):
         '''Tear down of database'''
         session.close()
         Base.metadata.drop_all(engine)
 if __name__ == '__main__':
+    Base.metadata.drop_all(engine)
     unittest.main()
 
 

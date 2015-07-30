@@ -5,6 +5,7 @@ from  . database  import Base, engine
 
 class Ranks(Base):
     __tablename__ = 'Ranks'
+    #make obvious
     id = Column(Integer, primary_key=True, unique=True)
     rank = Column(String(15), unique=True)
 
@@ -14,7 +15,6 @@ class Weight(Base):
     id = Column(Integer, primary_key=True, unique=True)
     weight = Column(Float)
     weight_date = Column(Date)
-    weight_delta = Column(Float)
     user_id = Column(Integer, ForeignKey('User.id'))
 
 

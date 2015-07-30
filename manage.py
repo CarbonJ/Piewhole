@@ -41,4 +41,5 @@ migrate = Migrate(piewhole, DB(Base.metadata))
 manager.add_command('db', MigrateCommand)
 
 if __name__ == '__main__':
+    print(os.environ.get("PIEWHOLEKEY", ""))
     manager.run()

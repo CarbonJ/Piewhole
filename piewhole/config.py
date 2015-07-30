@@ -3,7 +3,7 @@ import os
 class DevelopmentConfig(object):
     SQLALCHEMY_DATABASE_URI = 'postgresql://justin:justin@localhost:5432/piewhole'
     DEBUG = True
-    SECRET_KEY = 'TEMPORARYKEY'
+    SECRET_KEY = os.environ.get("PIEWHOLEKEY", "")
 
 class TestingConfig(object):
     SQLALCHEMY_DATABASE_URI = 'postgresql://justin:justin@localhost:5432/piewhole_test'
@@ -12,5 +12,5 @@ class TestingConfig(object):
 
 class TravisConfig(object):
     SQLALCHEMY_DATABASE_URI = 'postgresql://localhost:5432/piewhole_test'
-    debug = True
+    DEBUG = True
     SECRET_KEY = 'This is not really a secret'
