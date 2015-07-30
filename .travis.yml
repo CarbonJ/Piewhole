@@ -8,6 +8,7 @@ before_script:
 - psql -c 'create database 'piewhole_test';' -U postgres
 script:
 - PYTHONPATH=. python3 tests/test_integration.py
+- PYTHONPATH=. python3 tests/test_smoke.py
 notifications:
   pushover:
     api_key:

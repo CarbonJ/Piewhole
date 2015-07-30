@@ -1,13 +1,15 @@
-import datetime
+#import datetime
 from flask.ext.login import UserMixin
 from sqlalchemy import  Column, Integer, String, Float, ForeignKey, Date
 from  . database  import Base, engine
 
 class Ranks(Base):
     __tablename__ = 'Ranks'
-    #make obvious
     id = Column(Integer, primary_key=True, unique=True)
-    rank = Column(String(15), unique=True)
+    # rank 1,2,3 (1 best)
+    # desc 1 = good, 2 = ok, 3 = bad
+    rank = Column(Integer, unique=True)
+    rankdesc = Column(String(15), unique=True)
 
 
 class Weight(Base):

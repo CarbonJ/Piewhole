@@ -21,19 +21,28 @@ class testDatabase(unittest.TestCase):
 
     def testRank(self):
         '''Create ranks'''
-        self.rank1 = models.Ranks(rank='good')
-        self.rank2 = models.Ranks(rank='ok')
-        self.rank3 = models.Ranks(rank='bad')
+        try:
+            self.rank1 = models.Ranks(rank=1, rankdesc='good')
+            self.rank2 = models.Ranks(rank=2, rankdesc='ok')
+            self.rank3 = models.Ranks(rank=3, rankdesc='bad')
 
-        session.add_all([self.rank1, self.rank2, self.rank3])
-        session.commit()
+            session.add_all([self.rank1, self.rank2, self.rank3])
+            session.commit()
+            # How to catch error when rank='Todd'
+            self.assertTrue(True)
+        except:
+            self.assertTrue(False)
 
-    def testUser(self):
+    def testUserCreation(self):
         '''Create user'''
         self.user = models.User(username='todd', email='todd.hanssen@gmail.com', password=generate_password_hash('welcome1'))
 
         session.add(self.user)
         session.commit()
+
+    def testGoal(self):
+        '''Create food entries'''
+        pass
 
     def tearDown(self):
         '''Database tearDown'''
