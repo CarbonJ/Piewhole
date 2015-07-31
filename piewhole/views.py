@@ -6,15 +6,11 @@ from .models import User
 from flask import render_template
 from flask import request, redirect, url_for
 from flask import flash
-
+from werkzeug.security import check_password_hash
 from flask.ext.login import login_user
 from flask.ext.login import login_required
 from flask.ext.login import current_user
 from flask.ext.login import logout_user
-from werkzeug.security import check_password_hash
-
-
-
 
 @piewhole.route("/")
 def index():
@@ -26,10 +22,18 @@ def login():
 
 @piewhole.route("/login", methods=['POST'])
 def login_post():
-    print(request.form['email'])
+    print('form_email: {}'.format(request.form['email']))
+    print('form_password: {}'.format(request.form['password']))
+
     email = request.form['email']
+    password = request.form['password']
     user = session.query(User).filter_by(email=email).first()
+    print('User: {}'.format(user))
+    print('User ID: {}'.format(user.id))
+    print('Username: {}'.format(user.username))
+    print('User password: {}'.format(user.password))
     if not user or not check_password_hash(user.password, password):
+        print('No user found')
         flash('Incorrect user name or password', 'danger')
         return redirect(url_for('login'))
 
