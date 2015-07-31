@@ -22,7 +22,7 @@
             {% endif %}
 
             {% if current_user.is_authenticated() %}
-            You're <b>not</b> new, and are logged in
+            You're <b>not</b> new, and are logged in as {{ current_user.username }}.
             {% endif %}
 
         </div>
