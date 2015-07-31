@@ -40,15 +40,22 @@ def login_post():
     login_user(user)
     return redirect(url_for('index'))
 
+@piewhole.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
 @piewhole.route("/food")
 @login_required
 def fooddiary():
     return render_template("intro.html")
 
 @piewhole.route("/weight")
+@login_required
 def weightinfo():
     return render_template("intro.html")
 
 @piewhole.route("/profile")
+@login_required
 def userprofile():
     return render_template("intro.html")
