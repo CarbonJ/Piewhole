@@ -29,23 +29,23 @@ def register_user_post():
     password1 = request.form['password1']
     password2 = request.form['password2']
 
-
-
     print("Username: {}, email: {}, pw1: {}, pw2: {}".format(username, email, password1, password2))
 
-    return render_template("register.html")
 
-    # if validate_email(email) == True:
-    #     print(email)
-    #     if user:
-    #         print('Email already exists: {}'.format(user.email))
-    #         flash('A user already exists with that email address', 'warning')
-    #         return redirect(url_for('register_user_get'))
-    #     else:
-    #         return render_template('food.html')
-    # else:
-    #     print('Bad email format: {}'.format(user.email))
-    #     flash('Email address in incorrect format', 'warning')
+    if validate_email(email) == True:
+        user = session.query(User).filter_by(email=email).first()
+        if user:
+            print('Email already exists')
+            flash('A user already exists with that email address', 'warning')
+            return redirect(url_for('register_user_get'))
+        else:
+            print('build account')
+            return render_template("register.html")
+    else:
+        print('Bad email')
+        flash('Bad email', 'warning')
+        return render_template("register.html")
+
 
 @piewhole.route("/login", methods=['GET'])
 def login():
