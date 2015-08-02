@@ -1,11 +1,14 @@
-/*div.spacer {
-    margin-top: 80px;
-    font-size: 1.5em;
-}*/
+body { padding-top: 70px;
+        background: lightyellow;
+}
+
+div.container {
+    background: lightgray;
+}
 
 div.row {
     background: lightblue;
     padding: 2px;
 }
 
-body { padding-top: 70px; }
+
