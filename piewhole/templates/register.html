@@ -3,24 +3,62 @@
 
 <div class="container">
     <div class="row">
-    <class='col-sm-12'>
-    <h1>Register</h1>
+        <class='col-sm-6 col-md-4 col-lg-12'>
+        <h1>Register    </h1>
     </div>
-<div class="row">
-    <div class="col-sm-6">
-        <div class="demo-content">.col-sm-6</div>
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-lg-12">
+            <form class="form-horizontal" method="POST">
+                <fieldset>
+                    <!-- Form Name -->
+                    <legend>Create a new account...</legend>
+
+                    <!-- Text input-->
+                    <div class="control-group">
+                      <label class="control-label" for="username">User Name</label>
+                      <div class="controls">
+                        <input id="username" name="username" type="text" placeholder="Enter your user name" class="input-large">
+
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="control-group">
+                  <label class="control-label" for="email">Email Address</label>
+                  <div class="controls">
+                    <input id="email" name="email" type="text" placeholder="Enter your email" class="input-large" required="">
+
+                </div>
+            </div>
+
+            <!-- Password input-->
+            <div class="control-group">
+              <label class="control-label" for="password1">Password</label>
+              <div class="controls">
+                <input id="password1" name="password1" type="password" placeholder="Enter password" class="input-large" required="">
+
+            </div>
+        </div>
+
+        <!-- Password input-->
+        <div class="control-group">
+          <label class="control-label" for="password2">Re-enter Password</label>
+          <div class="controls">
+            <input id="password2" name="password2" type="password" placeholder="Enter password again" class="input-large">
+
+        </div>
     </div>
-    <div class="col-sm-86">
-        <div class="demo-content bg-alt">.col-sm-8</div>
-    </div>
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="singlebutton">Submit</label>
+  <div class="col-md-4">
+    <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
+  </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-6">
-        <div class="demo-content">.col-sm-3</div>
-    </div>
-    <div class="col-sm-6">
-        <div class="demo-content bg-alt">.col-sm-9</div>
-    </div>
+</fieldset>
+</form>
 </div>
+
 {% endblock %}
