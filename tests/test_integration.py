@@ -9,25 +9,22 @@ if not 'CONFIG_PATH' in os.environ:
 
 from piewhole import piewhole
 from piewhole import models
-from piewhole.database import Base, engine, session
+from piewhole.database import Base, engine, session, SQLAlchemyError
 
 print("CONFIG_PATH: {}".format(os.environ['CONFIG_PATH']))
 print()
 
 class testDatabase(unittest.TestCase):
     def setUp(self):
-        '''Database connection, setup, and single user'''
+        '''Database setUp'''
         Base.metadata.create_all(engine)
 
-    def testUser(self):
-        '''Create user and entries directly into database'''
-        self.user = models.User(username='todd', email='todd.hanssen@gmail.com', password=generate_password_hash('welcome1'))
-
-        session.add(self.user)
-        session.commit()
+    def testStub(self):
+        ''''''
+        pass
 
     def tearDown(self):
-        '''Tear down of database'''
+        '''Database tearDown'''
         session.close()
         Base.metadata.drop_all(engine)
 if __name__ == '__main__':

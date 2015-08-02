@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash
 if not 'CONFIG_PATH' in os.environ:
     os.environ['CONFIG_PATH'] = 'piewhole.config.TestingConfig'
 
-from piewhole import piewhole
+#from piewhole import piewhole
 from piewhole import models
 from piewhole.database import Base, engine, session
 

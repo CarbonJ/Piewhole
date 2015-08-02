@@ -22,6 +22,7 @@ def login():
 
 @piewhole.route("/login", methods=['POST'])
 def login_post():
+    # TODO: add check if email not in write format
     print('form_email: {}'.format(request.form['email']))
     print('form_password: {}'.format(request.form['password']))
 
@@ -38,7 +39,7 @@ def login_post():
         return redirect(url_for('login'))
 
     login_user(user)
-    return redirect(url_for('index'))
+    return redirect(url_for('profile'))
 
 @piewhole.route('/logout')
 def logout():
@@ -48,14 +49,14 @@ def logout():
 @piewhole.route("/food")
 @login_required
 def fooddiary():
-    return render_template("intro.html")
+    return render_template("food.html")
 
 @piewhole.route("/weight")
 @login_required
 def weightinfo():
-    return render_template("intro.html")
+    return render_template("weight.html")
 
 @piewhole.route("/profile")
 @login_required
-def userprofile():
-    return render_template("intro.html")
+def profile():
+    return render_template("profile.html")

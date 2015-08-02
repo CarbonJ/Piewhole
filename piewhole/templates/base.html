@@ -5,6 +5,7 @@
 <title>Piewhole: Simple Food Diary</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
@@ -23,9 +24,10 @@
             <ul class="nav navbar-nav navbar-right">
                 <!-- <li><a href="#">Login</a></li> -->
                  {% if current_user.is_authenticated() %}
-                            <li><a href="#">Food Diary</a></li>
-                            <li><a href="#">Weight</a></li>
-                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                            <li><a href='{{ url_for('fooddiary') }}'>Food Diary</a></li>
+                            <li><a href='{{ url_for('weightinfo') }}'>Weight</a></li>
+                            <li><a href='{{ url_for('profile') }}'>Profile</a></li>
+                            <li><a href='{{ url_for('logout') }}''>Logout</a></li>
                     {% else %}
                         <li><a href="{{ url_for('login') }}">Login</a></li>
                     {% endif %}
