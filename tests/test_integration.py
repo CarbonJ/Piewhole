@@ -9,7 +9,7 @@ if not 'CONFIG_PATH' in os.environ:
 
 from piewhole import piewhole
 from piewhole import models
-from piewhole.database import Base, engine, session, SQLAlchemyError
+from piewhole.database import Base, engine, session
 
 print("CONFIG_PATH: {}".format(os.environ['CONFIG_PATH']))
 print()
