@@ -16,6 +16,10 @@ from flask.ext.login import logout_user
 def index():
     return render_template("intro.html")
 
+@piewhole.route('/register')
+def register_user():
+    return render_template('register.html')
+
 @piewhole.route("/login", methods=['GET'])
 def login():
     return render_template("login.html")
