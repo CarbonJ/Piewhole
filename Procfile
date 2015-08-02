@@ -1,1 +1,1 @@
-web: gunicorn piewhole:piewhole
+web: gunicorn piewhole:piewhole --log-file=-
