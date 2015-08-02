@@ -11,3 +11,4 @@ MarkupSafe
 psycopg2
 SQLAlchemy
 Werkzeug
+gunicorn
