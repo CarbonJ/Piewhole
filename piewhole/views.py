@@ -7,6 +7,7 @@ from flask import render_template
 from flask import request, redirect, url_for
 from flask import flash
 from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash
 from flask.ext.login import login_user
 from flask.ext.login import login_required
 from flask.ext.login import current_user
@@ -36,15 +37,34 @@ def register_user_post():
         user = session.query(User).filter_by(email=email).first()
         if user:
             print('Email already exists')
-            flash('A user already exists with that email address', 'warning')
+            flash('A user already exists with that email address', 'danger')
             return redirect(url_for('register_user_get'))
         else:
             print('build account')
-            return render_template("register.html")
+            print('check if password match')
+            if password1 == password2:
+                print('passwords good')
+                user = User(username=username, email=email, password=generate_password_hash(password1))
+                session.add(user)
+                session.commit()
+                #return redirect(url_for('fooddiary'))
+                return render_template('food.html')
+            else:
+                flash('passwords dont match', 'warning')
+                return render_template("register.html")
+            return render_template("login.html")
     else:
         print('Bad email')
         flash('Bad email', 'warning')
         return render_template("register.html")
+
+# post = Post(
+#         title=request.form["title"],
+#         content=mistune.markdown(request.form["content"]),
+#         author=current_user
+#     )
+#     session.add(post)
+#     session.commit()
 
 
 @piewhole.route("/login", methods=['GET'])
