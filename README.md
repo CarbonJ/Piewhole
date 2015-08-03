@@ -2,18 +2,12 @@
 
 Master Branch: [![Build Status](https://travis-ci.org/CarbonJ/Piewhole.svg)](https://travis-ci.org/CarbonJ/Piewhole)
 
-
+Heroku Example: https://arcane-tundra-5901.herokuapp.com/
 
 **Purpose**: Piewhole is a simple food diary and weight tracker.  Is for those who just want to keep track of their eating habits (vs per calorie diaries, which there are plenty of).  Allows you to health rank those foods to see what your trends are and compare your weight changes to those ranks.
 
-| Major Tasks  | Status |
-| ------------- | ------------- |
-|  Front end design  | In progress |
-|  Full development | In progress |
-|  1.0 release  | tbd |
-
 ## Project Tasks
-- [x] Build environments
+- [x] Build work environments
   - [x] Travis-CI integration
   - [x] Pushover integration
   - [x] Heroku integration
