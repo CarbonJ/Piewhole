@@ -14,10 +14,22 @@ from piewhole.database import Base, engine, session
 print("CONFIG_PATH: {}".format(os.environ['CONFIG_PATH']))
 print()
 
-class testDatabase(unittest.TestCase):
+class testUserRegistration(unittest.TestCase):
     def setUp(self):
         '''Database setUp'''
         Base.metadata.create_all(engine)
+
+        # Create an example user
+        self.user = models.User(username="Alice", email="alice@example.com",
+                                password=generate_password_hash("test"))
+        session.add(self.user)
+        session.commit()
+
+        user = session.query(models.User).filter_by(email='alice@example.com').first()
+
+        print(user.email)
+        self.assertTrue(user.email, 'alice@example.com')
+        self.assertTrue(user.email, 'todd.hanssen@gmail.com')
 
     def testStub(self):
         ''''''

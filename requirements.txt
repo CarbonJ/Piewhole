@@ -13,3 +13,4 @@ SQLAlchemy
 Werkzeug
 gunicorn
 validate_email
+spinter

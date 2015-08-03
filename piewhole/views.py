@@ -31,7 +31,7 @@ def register_user_post():
     password1 = request.form['password1']
     password2 = request.form['password2']
 
-    print("Username: {}, email: {}, pw1: {}, pw2: {}".format(username, email, password1, password2))
+    #print("Username: {}, email: {}, pw1: {}, pw2: {}".format(username, email, password1, password2))
 
 
     if validate_email(email) == True:
@@ -67,16 +67,16 @@ def login():
 @piewhole.route("/login", methods=['POST'])
 def login_post():
     # TODO: add check if email not in write format
-    print('form_email: {}'.format(request.form['email']))
-    print('form_password: {}'.format(request.form['password']))
+    #print('form_email: {}'.format(request.form['email']))
+    #print('form_password: {}'.format(request.form['password']))
 
     email = request.form['email']
     password = request.form['password']
     user = session.query(User).filter_by(email=email).first()
-    print('User: {}'.format(user))
-    print('User ID: {}'.format(user.id))
-    print('Username: {}'.format(user.username))
-    print('User password: {}'.format(user.password))
+    #print('User: {}'.format(user))
+    #print('User ID: {}'.format(user.id))
+    #print('Username: {}'.format(user.username))
+    #print('User password: {}'.format(user.password))
     if not user or not check_password_hash(user.password, password):
         print('No user found')
         flash('Incorrect user name or password', 'danger')
