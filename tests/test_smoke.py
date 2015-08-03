@@ -21,17 +21,19 @@ class testDatabase(unittest.TestCase):
 
     def testRank(self):
         '''Create ranks'''
-        try:
-            self.rank1 = models.Ranks(rank=1, rankdesc='good')
-            self.rank2 = models.Ranks(rank=2, rankdesc='ok')
-            self.rank3 = models.Ranks(rank=3, rankdesc='bad')
+        self.rank1 = models.Ranks(rank=1, rankdesc='good')
+        self.rank2 = models.Ranks(rank=2, rankdesc='ok')
+        self.rank3 = models.Ranks(rank=3, rankdesc='bad')
 
-            session.add_all([self.rank1, self.rank2, self.rank3])
-            session.commit()
-            # How to catch error when rank='Todd'
-            self.assertTrue(True)
-        except:
-            self.assertTrue(False)
+        session.add_all([self.rank1, self.rank2, self.rank3])
+        session.commit()
+
+        r1test = session.query(models.Ranks).filter_by(rank=1).first()
+        r2test = session.query(models.Ranks).filter_by(rank=2).first()
+        r3test = session.query(models.Ranks).filter_by(rank=3).first()
+        self.assertEqual(r1test.rankdesc, 'good')
+        self.assertEqual(r2test.rankdesc, 'ok')
+        self.assertEqual(r3test.rankdesc, 'bad')
 
     def testUserCreation(self):
         '''Create user'''
@@ -40,8 +42,20 @@ class testDatabase(unittest.TestCase):
         session.add(self.user)
         session.commit()
 
+        utest = session.query(models.User).filter_by(email='todd.hanssen@gmail.com').first()
+
+        self.assertEqual(utest.username, 'todd')
+
     def testGoal(self):
+        '''Create goal entries'''
+        pass
+
+        def testFoodDiary(self):
         '''Create food entries'''
+        pass
+
+        def testWeightEntries(self):
+        '''Create weight entries'''
         pass
 
     def tearDown(self):

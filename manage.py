@@ -4,7 +4,7 @@ from flask.ext.migrate import Migrate, MigrateCommand
 from piewhole import piewhole
 from piewhole.database import session
 from piewhole.database import Base
-from piewhole.models import User
+from piewhole.models import User, Ranks
 from getpass import getpass
 from werkzeug.security import generate_password_hash
 
@@ -33,6 +33,12 @@ def adduser():
     session.add(user)
     session.commit()
 
+def setranks():
+    rank1 = Ranks(rank=1, rankdesc='Good')
+    rank2 = Ranks(rank=2, rankdesc='Ok')
+    rank3 = Ranks(rank=3, rankdesc='Bad')
+    session.add_all([rank1, rank2, rank3])
+    session.commit()
 
 class DB(object):
     def __init__(self, metadata):
