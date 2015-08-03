@@ -6,24 +6,36 @@ Master Branch: [![Build Status](https://travis-ci.org/CarbonJ/Piewhole.svg)](htt
 
 **Purpose**: Piewhole is a simple food diary and weight tracker.  Is for those who just want to keep track of their eating habits (vs per calorie diaries, which there are plenty of).  Allows you to health rank those foods to see what your trends are and compare your weight changes to those ranks.
 
-| Task  | Status |
+| Major Tasks  | Status |
 | ------------- | ------------- |
-|  Environment build | Done |
-|  Database modeling | In progress |
-|  Database migration | Done |
-|  Testing setup  | Done |
-|  Testing assertions  | In progress |
-|  Testing assertions  | In progress |
-|  Travis & Pushover integration | Done |
-|  Heroku setup | Done |
 |  Front end design  | In progress |
 |  Full development | In progress |
 |  1.0 release  | tbd |
 
-| Random Tasks  | 
-| ------------- | 
-- [ ] a bigger project
-  - [ ] first subtask #1234
-  - [ ] follow up subtask #4321
-  - [ ] final subtask cc @mention
-- [ ] a separate task
+## Project Tasks
+- [x] Build environments
+  - [x] Travis-CI integration
+  - [x] Pushover integration
+  - [x] Heroku integration
+- [x] Design
+  - [x] Database modeling (in progress)
+  - [x] Database migrations
+  - [x] Web stubts
+- [ ] Testing
+  - [ ] Smoke tests (in progress)
+  - [ ] Integration tests (in progress)
+  - [ ] Acceptance tests (in progress)
+- [ ] Primary Development
+  - [x] Intro/index page
+  - [x] User registration
+  - [x] User login
+  - [ ] User Profile
+  - [ ] Food Diary
+  - [ ] Weight History
+- [ ] Refactor
+  - [ ] Clean comments/documentation
+  - [ ] Add email checking to login function
+- [ ] Release
+  - [ ] Tag as 1.0 release
+  - [ ] Create development branch
+  - [ ] Find/determine host
