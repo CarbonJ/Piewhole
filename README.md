@@ -22,4 +22,4 @@ Master Branch: [![Build Status](https://travis-ci.org/CarbonJ/Piewhole.svg)](htt
 
 | Random Tasks  | 
 | ------------- | 
-| [ ] Check for email format during login |
+- [ ]
