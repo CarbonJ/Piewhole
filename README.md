@@ -13,12 +13,13 @@ Master Branch: [![Build Status](https://travis-ci.org/CarbonJ/Piewhole.svg)](htt
 |  Database migration | Done |
 |  Testing setup  | Done |
 |  Testing assertions  | In progress |
+|  Testing assertions  | In progress |
 |  Travis & Pushover integration | Done |
-|  Heroku setup | In progress |
+|  Heroku setup | Done |
 |  Front end design  | In progress |
-|  Full development | tbd |
+|  Full development | In progress |
 |  1.0 release  | tbd |
 
 | Random Tasks  | 
 | ------------- | 
-| [Check for email format during login] |
+| [ ] Check for email format during login |
