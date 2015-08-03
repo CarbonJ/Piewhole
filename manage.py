@@ -33,6 +33,8 @@ def adduser():
     session.add(user)
     session.commit()
 
+
+@manager.command
 def setranks():
     rank1 = Ranks(rank=1, rankdesc='Good')
     rank2 = Ranks(rank=2, rankdesc='Ok')
