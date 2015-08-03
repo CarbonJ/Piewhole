@@ -13,6 +13,7 @@ from flask.ext.login import login_required
 from flask.ext.login import current_user
 from flask.ext.login import logout_user
 
+
 from validate_email import validate_email
 
 @piewhole.route("/")
@@ -47,8 +48,8 @@ def register_user_post():
                 user = User(username=username, email=email, password=generate_password_hash(password1))
                 session.add(user)
                 session.commit()
-                #return redirect(url_for('fooddiary'))
-                return render_template('food.html')
+                login_user(user, remember=True)
+                return redirect(url_for('fooddiary'))
             else:
                 flash('passwords dont match', 'warning')
                 return render_template("register.html")
