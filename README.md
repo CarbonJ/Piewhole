@@ -19,3 +19,6 @@ Master Branch: [![Build Status](https://travis-ci.org/CarbonJ/Piewhole.svg)](htt
 |  Full development | tbd |
 |  1.0 release  | tbd |
 
+| Random Tasks  | 
+| ------------- | 
+| [Check for email format during login] |

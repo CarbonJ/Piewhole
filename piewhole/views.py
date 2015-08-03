@@ -59,14 +59,6 @@ def register_user_post():
         flash('Bad email', 'warning')
         return render_template("register.html")
 
-# post = Post(
-#         title=request.form["title"],
-#         content=mistune.markdown(request.form["content"]),
-#         author=current_user
-#     )
-#     session.add(post)
-#     session.commit()
-
 
 @piewhole.route("/login", methods=['GET'])
 def login():
