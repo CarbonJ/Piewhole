@@ -50,11 +50,11 @@ class testDatabase(unittest.TestCase):
         '''Create goal entries'''
         pass
 
-        def testFoodDiary(self):
+    def testFoodDiary(self):
         '''Create food entries'''
         pass
 
-        def testWeightEntries(self):
+    def testWeightEntries(self):
         '''Create weight entries'''
         pass
 
