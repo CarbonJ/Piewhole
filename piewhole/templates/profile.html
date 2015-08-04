@@ -1,26 +1,177 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-    <class='col-sm-12'>
-    <h1>Profile</h1>
+        <div class="col-sm-6 col-md-4 col-lg-12">
+            <h1>
+                Profile
+            </h1>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tabbable" id="tabs-968076">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#panel-407226" data-toggle="tab">User Details</a>
+                            </li>
+                            <li>
+                                <a href="#panel-946295" data-toggle="tab">Tracking Details</a>
+                            </li>
+                            <li>
+                                <a href="#panel-946298" data-toggle="tab">Change Password</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="panel-407226">
+                                <!-- START USER FORM -->
+                                <form class="form-horizontal">
+                                    <fieldset>
+
+                                        <!-- Form Name -->
+                                        <legend></legend>
+
+                                        <!-- Text input-->
+                                        <div class="form-group">
+                                          <label class="col-md-4 control-label" for="username">User Name</label>
+                                          <div class="col-md-6">
+                                              <input id="username" name="username" type="text" placeholder="" class="form-control input-md">
+
+                                          </div>
+                                      </div>
+
+                                      <!-- Text input-->
+                                      <div class="form-group">
+                                          <label class="col-md-4 control-label" for="email">Email Address</label>
+                                          <div class="col-md-6">
+                                              <input id="email" name="email" type="text" placeholder="" class="form-control input-md">
+
+                                          </div>
+                                      </div>
+
+                                      <!-- Button -->
+                                      <div class="form-group">
+                                          <label class="col-md-4 control-label" for="submituser"></label>
+                                          <div class="col-md-4">
+                                            <button id="submituser" name="submituser" class="btn btn-primary">Submit Changes</button>
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                            </form>
+
+                            <!-- END USER FORM -->
+                        </div>
+                        <div class="tab-pane" id="panel-946295">
+                            <!-- START TRACKING FORM -->
+                            <form class="form-horizontal">
+                                <fieldset>
+
+                                    <!-- Form Name -->
+                                    <legend></legend>
+
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label" for="weightgoal">Weight Goal</label>
+                                      <div class="col-md-5">
+                                          <input id="weightgoal" name="weightgoal" type="text" placeholder="You're weigh goal" class="form-control input-md">
+
+                                      </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                      <label class="col-md-4 control-label" for="goodgoal">Good Food</label>
+                                      <div class="col-md-5">
+                                          <input id="goodgoal" name="goodgoal" type="text" placeholder="" class="form-control input-md">
+                                          <span class="help-block">What percentage of the food to be good for you.</span>
+                                      </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                      <label class="col-md-4 control-label" for="okgoal">Ok Food</label>
+                                      <div class="col-md-5">
+                                          <input id="okgoal" name="okgoal" type="text" placeholder="" class="form-control input-md">
+                                          <span class="help-block">What percentage of the food to be 'okay' for you.</span>
+                                      </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                      <label class="col-md-4 control-label" for="badgoal">Bad Food</label>
+                                      <div class="col-md-5">
+                                          <input id="badgoal" name="badgoal" type="text" placeholder="" class="form-control input-md">
+                                          <span class="help-block">What percentage of the food to be bad for you.</span>
+                                      </div>
+                                  </div>
+
+                                  <!-- Button -->
+                                  <div class="form-group">
+                                      <label class="col-md-4 control-label" for="goalsubmit"></label>
+                                      <div class="col-md-4">
+                                        <button id="goalsubmit" name="goalsubmit" class="btn btn-primary">Submit Changes</button>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </form>
+
+                        <!-- END TRACKING FORM -->
+                    </div>
+                    <div class="tab-pane" id="panel-946298">
+                        <!-- START PASSWORD FORM -->
+                        <form class="form-horizontal">
+                            <fieldset>
+
+                                <!-- Form Name -->
+                                <legend></legend>
+
+                                <!-- Password input-->
+                                <div class="form-group">
+                                  <label class="col-md-4 control-label" for="originalpassword">Current Password</label>
+                                  <div class="col-md-6">
+                                    <input id="originalpassword" name="originalpassword" type="password" placeholder="" class="form-control input-md">
+
+                                </div>
+                            </div>
+
+                            <!-- Password input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="password1">New Password</label>
+                              <div class="col-md-6">
+                                <input id="password1" name="password1" type="password" placeholder="Enter a new password" class="form-control input-md">
+
+                            </div>
+                        </div>
+
+                        <!-- Password input-->
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="password2">New Password</label>
+                          <div class="col-md-6">
+                            <input id="password2" name="password2" type="password" placeholder="Enter the new password again" class="form-control input-md">
+
+                        </div>
+                    </div>
+
+                    <!-- Button -->
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" for="submitpassword"></label>
+                      <div class="col-md-4">
+                        <button id="submitpassword" name="submitpassword" class="btn btn-danger">Change Password</button>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+
+        <!-- END PASSWORD FORM -->
     </div>
-<div class="row">
-    <div class="col-sm-6">
-        <div class="demo-content">.col-sm-6</div>
-    </div>
-    <div class="col-sm-86">
-        <div class="demo-content bg-alt">.col-sm-8</div>
-    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 
-<div class="row">
-    <div class="col-sm-6">
-        <div class="demo-content">.col-sm-3</div>
-    </div>
-    <div class="col-sm-6">
-        <div class="demo-content bg-alt">.col-sm-9</div>
-    </div>
-</div>
 {% endblock %}

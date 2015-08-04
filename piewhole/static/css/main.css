@@ -1,16 +1,16 @@
 body { padding-top: 70px;
-       background: lightyellow;
+/*       background: lightyellow;*/
 }
 
 div.container {
-    background: lightgray;
-    border-style: solid;
+/*    background: lightgray;
+    border-style: solid;*/
 }
 
 div.row {
-    background: lightblue;
+/*    background: lightblue;*/
     margin-top: 4px;
     margin-bottom: 4px;
-    border-style: solid;
-    border-width: 1px;
+/*    border-style: solid;
+    border-width: 1px;*/
 }

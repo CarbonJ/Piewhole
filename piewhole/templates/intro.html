@@ -7,6 +7,15 @@
             <h5>A <i>very</i> simple food diary...</h5>
             <p>Sometimes tracking calories is overkill or just plain tedious.  Maybe you just want to know that you're eating right.  Maybe you have the habbit of just popping food in your craw and now thinking about.</p>
             <p>Piewhole hopefully will help you keep what your doing in your mind, allowing you to make better food choices.</p>
+            <p>
+                 {% if current_user.is_anonymous() %}
+            You're <b>new</b>, create an account <a href='{{ url_for('register_user_get') }}'>here.</a>
+            {% endif %}
+
+            {% if current_user.is_authenticated() %}
+            You're <b>not</b> new, and are logged in as {{ current_user.username }}.
+            {% endif %}
+            </p>
         </div>
     <div class="row">
         <div class="col-sm-6 col-md-4 col-lg-12">
@@ -16,15 +25,7 @@
         </div>
             <div class="col-sm-6 col-md-4 col-lg-16">
             <h2>What can it do?</h2>
-            <p>Eventtually some screenshots</p>
-            {% if current_user.is_anonymous() %}
-            You're <b>new</b>, create an account
-            {% endif %}
-
-            {% if current_user.is_authenticated() %}
-            You're <b>not</b> new, and are logged in as {{ current_user.username }}.
-            {% endif %}
-
+            <p>Eventually some screenshots</p>
         </div>
 </div>
 
