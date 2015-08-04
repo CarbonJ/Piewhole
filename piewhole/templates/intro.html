@@ -5,10 +5,10 @@
     <div class="jumbotron">
             <h1>Piewhole</h1>
             <h5>A <i>very</i> simple food diary...</h5>
-            <p>Sometimes tracking calories is overkill or just plain tedious.  Maybe you just want to know that you're eating right.  Maybe you have the habbit of just popping food in your craw and now thinking about.</p>
+            <p>Sometimes tracking calories is overkill or just plain tedious.  Maybe you just want to know that you're eating right.  Maybe you have the habbit of just popping food in your craw and not thinking about it.</p>
             <p>Piewhole hopefully will help you keep what your doing in your mind, allowing you to make better food choices.</p>
             <p>
-                 {% if current_user.is_anonymous() %}
+            {% if current_user.is_anonymous() %}
             You're <b>new</b>, create an account <a href='{{ url_for('register_user_get') }}'>here.</a>
             {% endif %}
 
