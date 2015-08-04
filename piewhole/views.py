@@ -31,18 +31,12 @@ def register_user_post():
     password1 = request.form['password1']
     password2 = request.form['password2']
 
-    #print("Username: {}, email: {}, pw1: {}, pw2: {}".format(username, email, password1, password2))
-
-
     if validate_email(email) == True:
         user = session.query(User).filter_by(email=email).first()
         if user:
-            print('Email already exists')
             flash('A user already exists with that email address', 'danger')
             return redirect(url_for('register_user_get'))
         else:
-            print('build account')
-            print('check if password match')
             if password1 == password2:
                 print('passwords good')
                 user = User(username=username, email=email, password=generate_password_hash(password1))
@@ -51,7 +45,7 @@ def register_user_post():
                 login_user(user, remember=True)
                 return redirect(url_for('fooddiary'))
             else:
-                flash('passwords dont match', 'warning')
+                flash("The passwords don't match, please re-try.", 'warning')
                 return render_template("register.html")
             return render_template("login.html")
     else:
@@ -66,17 +60,10 @@ def login():
 
 @piewhole.route("/login", methods=['POST'])
 def login_post():
-    # TODO: add check if email not in write format
-    #print('form_email: {}'.format(request.form['email']))
-    #print('form_password: {}'.format(request.form['password']))
-
     email = request.form['email']
     password = request.form['password']
     user = session.query(User).filter_by(email=email).first()
-    #print('User: {}'.format(user))
-    #print('User ID: {}'.format(user.id))
-    #print('Username: {}'.format(user.username))
-    #print('User password: {}'.format(user.password))
+
     if not user or not check_password_hash(user.password, password):
         print('No user found')
         flash('Incorrect user name or password', 'danger')
@@ -100,7 +87,9 @@ def fooddiary():
 def weightinfo():
     return render_template("weight.html")
 
-@piewhole.route("/profile")
+@piewhole.route("/profile<int:id>")
 @login_required
 def profile():
     return render_template("profile.html")
+
+
