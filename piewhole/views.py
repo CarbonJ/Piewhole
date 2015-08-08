@@ -109,7 +109,13 @@ def weightinfo():
 @login_required
 def profile():
     print('GET USER: {}'.format(current_user.username))
-    return render_template("profile.html")
+    goal = session.query(Goals).filter_by(id=current_user.id).first()
+    wtg = goal.weight_goal
+    hlg = goal.health_goal
+    print('GET WGT: {}'.format(wtg))
+    print('GET WGT: {}'.format(hlg))
+
+    return render_template("profile.html", weightgoal=wtg)
 
 @piewhole.route("/profile", methods=['POST'])
 @login_required
