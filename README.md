@@ -12,7 +12,7 @@ Heroku Example: https://arcane-tundra-5901.herokuapp.com/
   - [x] Pushover integration
   - [x] Heroku integration
 - [x] Design
-  - [x] Database modeling (in progress)
+  - [x] Database modeling
   - [x] Database migrations
   - [x] Web stubts
 - [ ] Testing

@@ -127,19 +127,5 @@ def profile_post():
     session.query(Goals).filter_by(id=current_user.id).update({"weight_goal": weightgoal})
     session.commit()
 
-    return render_template("profile.html")
-
-
-# class Goals(Base):
-#     __tablename__ = 'Goals'
-#     id = Column(Integer, primary_key=True, unique=True)
-#     user_id = Column(Integer, ForeignKey('User.id'))
-#     weight_goal = Column(Float)
-#     health_goal = Column(Float)
-
-# content = mistune.markdown(request.form["content"])
-
-#     session.query(Post).filter_by(id=postid).update(
-#         {"title": title, "content": content})
-#     session.commit()
-#     return redirect(url_for("posts"))
+    #return render_template("profile.html")
+    return redirect(url_for('profile'))
