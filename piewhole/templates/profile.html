@@ -35,7 +35,7 @@
                                         <div class="form-group">
                                           <label class="col-md-4 control-label" for="username">User Name</label>
                                           <div class="col-md-6">
-                                              <input id="username" name="username" type="text" placeholder="{{ current_user.username }}" class="form-control input-md">
+                                              <input id="username" name="username" type="text" placeholder="{{ current_user.username }}" value="{{ current_user.username }}"class="form-control input-md">
 
                                           </div>
                                       </div>
@@ -44,7 +44,7 @@
                                       <div class="form-group">
                                           <label class="col-md-4 control-label" for="email">Email Address</label>
                                           <div class="col-md-6">
-                                              <input id="email" name="email" type="text" placeholder="{{ current_user.email }}" class="form-control input-md">
+                                              <input id="email" name="email" type="text" placeholder="{{ current_user.email }}" value="{{ current_user.email }}"class="form-control input-md">
 
                                           </div>
                                       </div>
@@ -82,15 +82,14 @@
 
                                   <!-- Text input-->
                                   <div class="form-group">
-                                      <label class="col-md-4 control-label" for="goodgoal">Good Food</label>
+                                      <label class="col-md-4 control-label" for="goodgoal">Health Goal</label>
                                       <div class="col-md-5">
-                                          <input id="goodgoal" name="goodgoal" type="text" placeholder="" class="form-control input-md">
+                                          <input id="goodgoal" name="goodgoal" type="text" value="{{ healthgoal }}" placeholder="" class="form-control input-md">
                                           <span class="help-block">What percentage of the food to be good for you.</span>
                                       </div>
                                   </div>
 
-                                  <!-- Text input-->
-                                  <div class="form-group">
+<!--                                   <div class="form-group">
                                       <label class="col-md-4 control-label" for="okgoal">Ok Food</label>
                                       <div class="col-md-5">
                                           <input id="okgoal" name="okgoal" type="text" placeholder="" class="form-control input-md">
@@ -98,14 +97,13 @@
                                       </div>
                                   </div>
 
-                                  <!-- Text input-->
                                   <div class="form-group">
                                       <label class="col-md-4 control-label" for="badgoal">Bad Food</label>
                                       <div class="col-md-5">
                                           <input id="badgoal" name="badgoal" type="text" placeholder="" class="form-control input-md">
                                           <span class="help-block">What percentage of the food to be bad for you.</span>
                                       </div>
-                                  </div>
+                                  </div> -->
 
                                   <!-- Button -->
                                   <div class="form-group">

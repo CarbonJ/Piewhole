@@ -111,21 +111,28 @@ def profile():
     print('GET USER: {}'.format(current_user.username))
     goal = session.query(Goals).filter_by(id=current_user.id).first()
     wtg = goal.weight_goal
-    hlg = goal.health_goal
+    gdg = (goal.health_goal * 100)
     print('GET WGT: {}'.format(wtg))
-    print('GET WGT: {}'.format(hlg))
+    print('GET WGT: {}'.format(gdg))
+    if not gdg:
+        gdg = .85
+        print(gdg)
 
-    return render_template("profile.html", weightgoal=wtg)
+    return render_template("profile.html", weightgoal=wtg, healthgoal=gdg)
 
 @piewhole.route("/profile", methods=['POST'])
 @login_required
 def profile_post():
+    # What if value submitted is null?
+
     print('POST: {}'.format(current_user.username))
     weightgoal = request.form['weightgoal']
+    goodgoal = (int(request.form['goodgoal']) * .01)
     print('Weight Goal: {}'.format(weightgoal))
+    print('Weight Goal: {}'.format(goodgoal))
 
     session.query(Goals).filter_by(id=current_user.id).update({"weight_goal": weightgoal})
+    session.query(Goals).filter_by(id=current_user.id).update({"health_goal": goodgoal})
     session.commit()
 
-    #return render_template("profile.html")
     return redirect(url_for('profile'))
