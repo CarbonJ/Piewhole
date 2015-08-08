@@ -28,7 +28,8 @@ Heroku Example: https://arcane-tundra-5901.herokuapp.com/
   - [ ] Weight History
 - [ ] Refactor
   - [ ] Clean comments/documentation
-  - [ ] Add email checking to login function
+  - [x] Add email checking to login function
+  - [ ] What if values of weight/health are NULL
 - [ ] Release
   - [ ] Tag as 1.0 release
   - [ ] Create development branch

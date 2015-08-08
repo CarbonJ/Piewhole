@@ -27,26 +27,19 @@ def register_user_get():
 @piewhole.route('/register', methods=['POST'])
 def register_user_post():
     username = request.form['username']
-    email = request.form['email'].upper()
+    email = request.form['email'].lower()
     password1 = request.form['password1']
     password2 = request.form['password2']
 
     user = session.query(Users).filter_by(email=email).first()
-    if user is None:
-        print('bad"')
 
-    #FIX FIX FIX
-    # IF USER
-
-    if validate_email(email) == True:
-        print('submitted email valid')
-        #user = session.query(User).filter_by(email=email).first()
-        if user.email.upper() == email.upper():
-            print('Email already exists')
-            flash('A user already exists with that email address', 'danger')
-            return redirect(url_for('register_user_get'))
-        else:
-            print('build account')
+    if user:
+        print('Email already exists')
+        flash('A user already exists with that email address', 'danger')
+        return redirect(url_for('register_user_get'))
+    else:
+        print('No pre-existing user found')
+        if validate_email(email) == True:
             print('check if password match')
             if password1 == password2:
                 print('passwords good')
@@ -59,10 +52,10 @@ def register_user_post():
                 flash('passwords dont match', 'warning')
                 return render_template("register.html")
             return render_template("login.html")
-    else:
-        print('Bad email')
-        flash('Bad email', 'warning')
-        return render_template("register.html")
+        else:
+            print('Bad email')
+            flash('Bad email', 'warning')
+            return render_template("register.html")
 
 
 @piewhole.route("/login", methods=['GET'])
