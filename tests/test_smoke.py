@@ -2,6 +2,7 @@ import os
 import unittest
 import urllib.parse as urlparse
 from werkzeug.security import generate_password_hash
+import sqlalchemy.exc
 
 #Configuration to use testing config
 if not 'CONFIG_PATH' in os.environ:
@@ -21,19 +22,22 @@ class testDatabase(unittest.TestCase):
 
     def testRank(self):
         '''Create ranks'''
-        self.rank1 = models.Ranks(rank=1, rankdesc='good')
-        self.rank2 = models.Ranks(rank=2, rankdesc='ok')
-        self.rank3 = models.Ranks(rank=3, rankdesc='bad')
+        try:
+            self.rank1 = models.Ranks(rank=1, rankdesc='good')
+            self.rank2 = models.Ranks(rank=2, rankdesc='ok')
+            self.rank3 = models.Ranks(rank=3, rankdesc='bad')
 
-        session.add_all([self.rank1, self.rank2, self.rank3])
-        session.commit()
+            session.add_all([self.rank1, self.rank2, self.rank3])
+            session.commit()
 
-        r1test = session.query(models.Ranks).filter_by(rank=1).first()
-        r2test = session.query(models.Ranks).filter_by(rank=2).first()
-        r3test = session.query(models.Ranks).filter_by(rank=3).first()
-        self.assertEqual(r1test.rankdesc, 'good')
-        self.assertEqual(r2test.rankdesc, 'ok')
-        self.assertEqual(r3test.rankdesc, 'bad')
+            r1test = session.query(models.Ranks).filter_by(rank=1).first()
+            r2test = session.query(models.Ranks).filter_by(rank=2).first()
+            r3test = session.query(models.Ranks).filter_by(rank=3).first()
+            self.assertEqual(r1test.rankdesc, 'good')
+            self.assertEqual(r2test.rankdesc, 'ok')
+            self.assertEqual(r3test.rankdesc, 'bad')
+        except sqlalchemy.exc.DataError as error:
+            print(error)
 
     def testUserCreation(self):
         '''Create user'''

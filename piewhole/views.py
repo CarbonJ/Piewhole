@@ -31,8 +31,16 @@ def register_user_post():
     password1 = request.form['password1']
     password2 = request.form['password2']
 
+    user = session.query(User).filter_by(email=email).first()
+    if user is None:
+        print('bad"')
+
+    #FIX FIX FIX
+    # IF USER
+
     if validate_email(email) == True:
-        user = session.query(User).filter_by(email=email).first()
+        print('submitted email valid')
+        #user = session.query(User).filter_by(email=email).first()
         if user.email.upper() == email.upper():
             print('Email already exists')
             flash('A user already exists with that email address', 'danger')
