@@ -4,7 +4,7 @@ from flask.ext.migrate import Migrate, MigrateCommand
 from piewhole import piewhole
 from piewhole.database import session
 from piewhole.database import Base
-from piewhole.models import User, Ranks
+from piewhole.models import Users, Ranks
 from getpass import getpass
 from werkzeug.security import generate_password_hash
 
@@ -13,13 +13,13 @@ manager = Manager(piewhole)
 @manager.command
 def run():
     port = int(os.environ.get('PORT', 8080))
-    piewhole.run(host='locke.local', port=port, debug=True)
+    piewhole.run(host='127.0.0.1', port=port, debug=True)
 
 @manager.command
 def adduser():
     name = input("Name: ")
     email = input("Email: ")
-    if session.query(User).filter_by(email=email).first():
+    if session.query(Users).filter_by(email=email).first():
         print('User with that email address already exists')
         return
 
@@ -28,7 +28,7 @@ def adduser():
     while not (password and password_2) or password != password_2:
         password = getpass('Password: ')
         password_2 = getpass('Re-enter password: ')
-    user = User(username=name, email=email,
+    user = Users(username=name, email=email,
                 password=generate_password_hash(password))
     session.add(user)
     session.commit()

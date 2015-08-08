@@ -2,7 +2,7 @@ from flask.ext.login import LoginManager
 
 from piewhole import piewhole
 from .database import session
-from .models import User
+from .models import Users
 
 login_manager = LoginManager()
 login_manager.init_app(piewhole)

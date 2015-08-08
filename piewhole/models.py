@@ -17,7 +17,7 @@ class Weight(Base):
     id = Column(Integer, primary_key=True, unique=True)
     weight = Column(Float)
     weight_date = Column(Date)
-    user_id = Column(Integer, ForeignKey('User.id'))
+    user_id = Column(Integer, ForeignKey('Users.id'))
 
 
 class Food(Base):
@@ -26,11 +26,11 @@ class Food(Base):
     food = Column(String)
     food_date = Column(Date)
     rank_id = Column(Integer, ForeignKey('Ranks.id'))
-    user_id = Column(Integer, ForeignKey('User.id'))
+    user_id = Column(Integer, ForeignKey('Users.id'))
 
 
-class User(Base, UserMixin):
-    __tablename__ = 'User'
+class Users(Base, UserMixin):
+    __tablename__ = 'Users'
     id = Column(Integer, primary_key=True, unique=True)
     username = Column(String)
     email = Column(String, unique=True)
@@ -40,7 +40,7 @@ class User(Base, UserMixin):
 class Goals(Base):
     __tablename__ = 'Goals'
     id = Column(Integer, primary_key=True, unique=True)
-    user_id = Column(Integer, ForeignKey('User.id'))
+    user_id = Column(Integer, ForeignKey('Users.id'))
     weight_goal = Column(Float)
     health_goal = Column(Float)
 
