@@ -20,12 +20,12 @@ class testUserRegistration(unittest.TestCase):
         Base.metadata.create_all(engine)
 
         # Create an example user
-        self.user = models.User(username="Alice", email="alice@example.com",
+        self.user = models.Users(username="Alice", email="alice@example.com",
                                 password=generate_password_hash("test"))
         session.add(self.user)
         session.commit()
 
-        user = session.query(models.User).filter_by(email='alice@example.com').first()
+        user = session.query(models.Users).filter_by(email='alice@example.com').first()
 
         print(user.email)
         self.assertTrue(user.email, 'alice@example.com')

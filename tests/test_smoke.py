@@ -46,7 +46,7 @@ class testDatabase(unittest.TestCase):
         session.add(self.user)
         session.commit()
 
-        utest = session.query(models.User).filter_by(email='todd.hanssen@gmail.com').first()
+        utest = session.query(models.Users).filter_by(email='todd.hanssen@gmail.com').first()
 
         self.assertEqual(utest.username, 'todd')
 
