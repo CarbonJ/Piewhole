@@ -102,7 +102,13 @@ def weightinfo():
 @login_required
 def profile():
     print('GET USER: {}'.format(current_user.username))
-    goal = session.query(Goals).filter_by(id=current_user.id).first()
+    print(current_user.id)
+    goal = session.query(Goals).filter_by(user_id=current_user.id).first()
+    try:
+        print(goal)
+        print(goal.weight_goal)
+    except:
+        print('no futher')
     if goal:
         wtg = goal.weight_goal
         gdg = (goal.health_goal * 100)
@@ -113,7 +119,7 @@ def profile():
             gdg = 0
             print(gdg)
     else:
-        flash('Please enter a weight and health goal.', 'danger')
+        flash('Please enter a weight and health goal.', 'warning')
         wtg = 0
         gdg = 0
 
@@ -124,44 +130,38 @@ def profile():
 def profile_post():
     # What if value submitted is null?
 
-    print('POST: {}'.format(current_user.username))
-    print('POST: {}'.format(request.form['weightgoal']))
-    print('POST: {}'.format(request.form['goodgoal']))
-    print('POST: {}'.format(float(request.form['goodgoal']) * .01))
+    print('POST USER: {}'.format(current_user.username))
+    print('POST WG: {}'.format(request.form['weightgoal']))
+    print('POST HG: {}'.format(request.form['goodgoal']))
 
-    weightgoal = request.form['weightgoal']
-    goodgoal = (float(request.form['goodgoal']) * .01)
-    # print('Weight Goal: {}'.format(weightgoal))
-    # print('Health Goal: {}'.format(goodgoal))
+    try:
+        weightgoal = request.form['weightgoal']
+        goodgoal = (float(request.form['goodgoal']) * .01)
+        # print('Weight Goal: {}'.format(weightgoal))
+        # print('Health Goal: {}'.format(goodgoal))
 
-    print('Trying to make changes')
-    #testweight = session.query(Goals).filter_by(id=current_user.id).first()
-    testweight = session.query(Goals).filter(id=current_user.id, weight_goal=None).first()
-    print(testweight)
+        print('Trying to make changes')
+        testweight = session.query(Goals).filter_by(id=current_user.id).first()
 
-    if not testweight:
-        print("goals don't exist")
-
-
-
-    # test = session.query(Goals).filter_by(id=current_user.id).first()
-    # if test:
-    #     session.query(Goals).filter_by(id=current_user.id).update({"weight_goal": weightgoal})
-    #     session.query(Goals).filter_by(id=current_user.id).update({"health_goal": goodgoal})
-    #     session.commit()
-    # else:
-    #     weight = Goals(user_id=current_user.id, weight_goal=weightgoal)
-    #     healthpercent = Goals(user_id=current_user.id, health_goal=goodgoal)
-    #     session.add(weight)
-    #     session.add(healthpercent)
-    #     session.commit()
-
-    #         post = Post(
-    #     title=request.form["title"],
-    #     content=mistune.markdown(request.form["content"]),
-    #     author=current_user
-    # )
-    # session.add(post)
-    # session.commit()
+        if not testweight:
+            if weightgoal and goodgoal > 0:
+                print("goals don't exist")
+                print('POST WG: {}'.format(weightgoal))
+                print('POST HG: {}'.format(goodgoal))
+                newgoals = Goals(user_id=current_user.id, weight_goal=weightgoal, health_goal=goodgoal)
+                print(newgoals)
+                session.add(newgoals)
+                session.commit()
+                print("commit done")
+                return redirect(url_for('profile'))
+                #return render_template("profile.html")
+            else:
+                flash('Need both a weight goal and health percentage.', 'danger')
+        else:
+            print('weight existings, update')
+            session.query(Goals).filter_by(id=current_user.id).update({"weight_goal": weightgoal})
+            session.commit()
+    except (ValueError) as error:
+        print('Failed: {}'.format(error))
 
     return redirect(url_for('profile'))
