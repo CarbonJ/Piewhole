@@ -103,21 +103,19 @@ def weightinfo():
 def profile():
     print('GET USER: {}'.format(current_user.username))
     print(current_user.id)
+    u = session.query(Users).filter_by(id=current_user.id).first()
+    print(u.username)
     goal = session.query(Goals).filter_by(user_id=current_user.id).first()
     try:
         print(goal)
         print(goal.weight_goal)
     except:
-        print('no futher')
+        print('no goals entered ')
     if goal:
         wtg = goal.weight_goal
         gdg = (goal.health_goal * 100)
         print('GET WGT: {}'.format(wtg))
         print('GET WGT: {}'.format(gdg))
-        if not gdg or not wtg:
-            wtg = 0
-            gdg = 0
-            print(gdg)
     else:
         flash('Please enter a weight and health goal.', 'warning')
         wtg = 0
@@ -141,7 +139,7 @@ def profile_post():
         # print('Health Goal: {}'.format(goodgoal))
 
         print('Trying to make changes')
-        testweight = session.query(Goals).filter_by(id=current_user.id).first()
+        testweight = session.query(Goals).filter_by(user_id=current_user.id).first()
 
         if not testweight:
             if weightgoal and goodgoal > 0:
@@ -154,12 +152,14 @@ def profile_post():
                 session.commit()
                 print("commit done")
                 return redirect(url_for('profile'))
+
                 #return render_template("profile.html")
             else:
                 flash('Need both a weight goal and health percentage.', 'danger')
         else:
             print('weight existings, update')
-            session.query(Goals).filter_by(id=current_user.id).update({"weight_goal": weightgoal})
+            session.query(Goals).filter_by(user_id=current_user.id).update({"weight_goal": weightgoal})
+            session.query(Goals).filter_by(user_id=current_user.id).update({"health_goal": goodgoal})
             session.commit()
     except (ValueError) as error:
         print('Failed: {}'.format(error))
