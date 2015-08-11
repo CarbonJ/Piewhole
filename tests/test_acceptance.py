@@ -28,7 +28,7 @@ class TestViews(unittest.TestCase):
         Base.metadata.create_all(engine)
 
         # Create an example user
-        self.user = models.User(username="Alice", email="alice@example.com",
+        self.user = models.Users(username="Alice", email="alice@example.com",
                                 password=generate_password_hash("test"))
         session.add(self.user)
         session.commit()

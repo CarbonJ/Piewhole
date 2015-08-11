@@ -41,7 +41,7 @@ class testDatabase(unittest.TestCase):
 
     def testUserCreation(self):
         '''Create user'''
-        self.user = models.User(username='todd', email='todd.hanssen@gmail.com', password=generate_password_hash('welcome1'))
+        self.user = models.Users(username='todd', email='todd.hanssen@gmail.com', password=generate_password_hash('welcome1'))
 
         session.add(self.user)
         session.commit()
