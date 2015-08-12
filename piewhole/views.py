@@ -137,9 +137,55 @@ def profile_post():
         print('POST WG: {}'.format(request.form['weightgoal']))
         print('POST HG: {}'.format(request.form['goodgoal']))
 
+        try:
+            weightgoal = request.form['weightgoal']
+            goodgoal = (float(request.form['goodgoal']) * .01)
+
+            print('POST: Trying to make changes')
+            testweight = session.query(Goals).filter_by(user_id=current_user.id).first()
+
+            if not testweight:
+                if weightgoal and goodgoal > 0:
+                    print('POST: New goals, so inserting.')
+                    print('POST WG: {}'.format(weightgoal))
+                    print('POST HG: {}'.format(goodgoal))
+                    newgoals = Goals(user_id=current_user.id, weight_goal=weightgoal, health_goal=goodgoal)
+                    print(newgoals)
+                    session.add(newgoals)
+                    session.commit()
+                    print("POST: Commit done")
+                    return redirect(url_for('profile'))
+                else:
+                    flash('Need both a weight goal and health percentage.', 'danger')
+            else:
+                print('POST: Goals already exists, so updating.')
+                session.query(Goals).filter_by(user_id=current_user.id).update({"weight_goal": weightgoal})
+                session.query(Goals).filter_by(user_id=current_user.id).update({"health_goal": goodgoal})
+                session.commit()
+        except (ValueError) as error:
+            print('Failed: {}'.format(error))
+
+    def update_user():
+        print('POST USER: {}'.format(current_user.username))
+        print('POST USERFORM: {}'.format(request.form['username']))
+        print('POST EMAILFORM: {}'.format(request.form['email']))
+
+        try:
+            username = request.form['username']
+            email = request.form['email']
+
+            print('POST: Trying to make changes')
+            session.query(Users).filter_by(id=current_user.id).update({"username": username})
+            session.query(Users).filter_by(id=current_user.id).update({"email": email})
+            session.commit()
+            print('POST: Changes commited')
+        except:
+            print("Unexpected error: {}".format(sys.exc_info()[0]))
+            raise
 
     if request.form['submit'] == 'user':
         print('-- POST: User section submitted --')
+        update_user()
     elif request.form['submit'] == 'goal':
         print('-- POST: Goal section submitted --')
         update_goal()
@@ -147,38 +193,5 @@ def profile_post():
         print('-- POST: Password section submitted --')
     else:
         print('what the hell button as pushed?')
-
-
-    try:
-        weightgoal = request.form['weightgoal']
-        goodgoal = (float(request.form['goodgoal']) * .01)
-        # print('Weight Goal: {}'.format(weightgoal))
-        # print('Health Goal: {}'.format(goodgoal))
-
-        print('Trying to make changes')
-        testweight = session.query(Goals).filter_by(user_id=current_user.id).first()
-
-        if not testweight:
-            if weightgoal and goodgoal > 0:
-                print("goals don't exist")
-                print('POST WG: {}'.format(weightgoal))
-                print('POST HG: {}'.format(goodgoal))
-                newgoals = Goals(user_id=current_user.id, weight_goal=weightgoal, health_goal=goodgoal)
-                print(newgoals)
-                session.add(newgoals)
-                session.commit()
-                print("commit done")
-                return redirect(url_for('profile'))
-
-                #return render_template("profile.html")
-            else:
-                flash('Need both a weight goal and health percentage.', 'danger')
-        else:
-            print('weight existings, update')
-            session.query(Goals).filter_by(user_id=current_user.id).update({"weight_goal": weightgoal})
-            session.query(Goals).filter_by(user_id=current_user.id).update({"health_goal": goodgoal})
-            session.commit()
-    except (ValueError) as error:
-        print('Failed: {}'.format(error))
 
     return redirect(url_for('profile'))
