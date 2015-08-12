@@ -133,7 +133,10 @@ def profile():
 def profile_post():
 
     def update_goal():
-        print('hello')
+        print('POST USER: {}'.format(current_user.username))
+        print('POST WG: {}'.format(request.form['weightgoal']))
+        print('POST HG: {}'.format(request.form['goodgoal']))
+
 
     if request.form['submit'] == 'user':
         print('-- POST: User section submitted --')
@@ -145,14 +148,6 @@ def profile_post():
     else:
         print('what the hell button as pushed?')
 
-
-    print('POST USER: {}'.format(current_user.username))
-    print('POST WG: {}'.format(request.form['weightgoal']))
-    print('POST HG: {}'.format(request.form['goodgoal']))
-
-
-    # print('POST HG: {}'.format(request.form['username']))
-    # print('POST HG: {}'.format(request.form['email']))
 
     try:
         weightgoal = request.form['weightgoal']
