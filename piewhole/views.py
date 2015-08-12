@@ -93,6 +93,12 @@ def logout():
 def fooddiary():
     return render_template("food.html")
 
+@piewhole.route("/food")
+@login_required
+def fooddiary_post():
+    return render_template("food.html")
+
+
 @piewhole.route("/weight")
 @login_required
 def weightinfo():
@@ -126,11 +132,23 @@ def profile():
 @piewhole.route("/profile", methods=['POST'])
 @login_required
 def profile_post():
-    # What if value submitted is null?
+
+    if request.form['submit'] == 'user':
+        print('-- User section submitted --')
+    elif request.form['submit'] == 'goal':
+        print('-- Goal section submitted --')
+    elif request.form['submit'] == 'password':
+        print('-- Password section submitted --')
+    else:
+        print('what the hell button as pushed?')
 
     print('POST USER: {}'.format(current_user.username))
     print('POST WG: {}'.format(request.form['weightgoal']))
     print('POST HG: {}'.format(request.form['goodgoal']))
+
+
+    # print('POST HG: {}'.format(request.form['username']))
+    # print('POST HG: {}'.format(request.form['email']))
 
     try:
         weightgoal = request.form['weightgoal']
