@@ -107,21 +107,20 @@ def weightinfo():
 @piewhole.route("/profile", methods=['GET'])
 @login_required
 def profile():
-    print('GET USER: {}'.format(current_user.username))
-    print(current_user.id)
+    print('-- GET: Profile page rendered. --')
+    print('GET - User: {}'.format(current_user.username))
+    print('GET - ID: {}'.format(current_user.id))
+
     u = session.query(Users).filter_by(id=current_user.id).first()
-    print(u.username)
+    print('GET - Queried User: {}'.format(u.username))
+
     goal = session.query(Goals).filter_by(user_id=current_user.id).first()
-    try:
-        print(goal)
-        print(goal.weight_goal)
-    except:
-        print('no goals entered ')
+
     if goal:
         wtg = goal.weight_goal
         gdg = (goal.health_goal * 100)
-        print('GET WGT: {}'.format(wtg))
-        print('GET WGT: {}'.format(gdg))
+        print('GET - Goal Weight: {}'.format(wtg))
+        print('GET - Goal Health: {}'.format(gdg))
     else:
         flash('Please enter a weight and health goal.', 'warning')
         wtg = 0
@@ -133,14 +132,19 @@ def profile():
 @login_required
 def profile_post():
 
+    def update_goal():
+        print('hello')
+
     if request.form['submit'] == 'user':
-        print('-- User section submitted --')
+        print('-- POST: User section submitted --')
     elif request.form['submit'] == 'goal':
-        print('-- Goal section submitted --')
+        print('-- POST: Goal section submitted --')
+        update_goal()
     elif request.form['submit'] == 'password':
-        print('-- Password section submitted --')
+        print('-- POST: Password section submitted --')
     else:
         print('what the hell button as pushed?')
+
 
     print('POST USER: {}'.format(current_user.username))
     print('POST WG: {}'.format(request.form['weightgoal']))
