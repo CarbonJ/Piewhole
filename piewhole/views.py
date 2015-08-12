@@ -71,10 +71,6 @@ def login_post():
     email = request.form['email']
     password = request.form['password']
     user = session.query(Users).filter_by(email=email).first()
-    #print('User: {}'.format(user))
-    #print('User ID: {}'.format(user.id))
-    #print('Username: {}'.format(user.username))
-    #print('User password: {}'.format(user.password))
     if not user or not check_password_hash(user.password, password):
         print('No user found')
         flash('Incorrect user name or password', 'danger')
@@ -180,8 +176,30 @@ def profile_post():
             session.commit()
             print('POST: Changes commited')
         except:
-            print("Unexpected error: {}".format(sys.exc_info()[0]))
+            flash('NO GOOD EMAIL.', 'danger')
             raise
+
+    def update_password():
+        print('POST USER: {}'.format(current_user.username))
+        try:
+            pwd = request.form['originalpassword']
+            pw1 = request.form['password1']
+            pw2 = request.form['password2']
+
+            user = session.query(Users).filter_by(id=current_user.id).first()
+
+            if user and check_password_hash(user.password, pwd):
+                if pw1 == pw2:
+                    print('POST: New passwords good.')
+                    session.query(Users).filter_by(id=current_user.id).update({'password': generate_password_hash(pw1)})
+                    session.commit()
+                else:
+                    flash('The new passwords do not match, please try again.', 'warning')
+            else:
+                flash('Incorrect password.', 'danger')
+        except:
+            raise
+
 
     if request.form['submit'] == 'user':
         print('-- POST: User section submitted --')
@@ -191,6 +209,7 @@ def profile_post():
         update_goal()
     elif request.form['submit'] == 'password':
         print('-- POST: Password section submitted --')
+        update_password()
     else:
         print('what the hell button as pushed?')
 
