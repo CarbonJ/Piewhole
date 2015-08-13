@@ -84,15 +84,28 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@piewhole.route("/food")
+@piewhole.route("/food", methods=['GET'])
 @login_required
 def fooddiary():
+    print('-- GET: Food page rendered. --')
+    print('GET - User: {}'.format(current_user.username))
+    print('GET - ID: {}'.format(current_user.id))
     return render_template("food.html")
 
-@piewhole.route("/food")
+@piewhole.route("/food", methods=['POST'])
 @login_required
 def fooddiary_post():
-    return render_template("food.html")
+
+    if request.form['submit'] == 'good':
+        print('-- POST: Good food submitted --')
+    elif request.form['submit'] == 'ok':
+        print('-- POST: Okay food submitted --')
+    elif request.form['submit'] == 'bad':
+        print('-- POST: Bad food submitted --')
+    else:
+        print('What the hell button as pushed?')
+
+    return redirect(url_for('fooddiary'))
 
 
 @piewhole.route("/weight")
@@ -170,11 +183,16 @@ def profile_post():
             username = request.form['username']
             email = request.form['email']
 
-            print('POST: Trying to make changes')
-            session.query(Users).filter_by(id=current_user.id).update({"username": username})
-            session.query(Users).filter_by(id=current_user.id).update({"email": email})
-            session.commit()
-            print('POST: Changes commited')
+            emailtest = session.query(Users).filter_by(email=email).first()
+
+            if emailtest and email != current_user.email:
+                flash('That email address is already in use.', 'danger')
+            else:
+                print('POST: Trying to make changes')
+                session.query(Users).filter_by(id=current_user.id).update({"username": username})
+                session.query(Users).filter_by(id=current_user.id).update({"email": email})
+                session.commit()
+                print('POST: Changes commited')
         except:
             flash('NO GOOD EMAIL.', 'danger')
             raise
@@ -211,6 +229,6 @@ def profile_post():
         print('-- POST: Password section submitted --')
         update_password()
     else:
-        print('what the hell button as pushed?')
+        print('What the hell button as pushed?')
 
     return redirect(url_for('profile'))
