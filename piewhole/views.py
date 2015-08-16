@@ -90,11 +90,14 @@ def logout():
 @piewhole.route("/food", methods=['GET'])
 @login_required
 def fooddiary():
+    now = datetime.datetime.now().strftime("%Y-%m-%d")
+
     print('-- GET: Food page rendered. --')
     print('GET - User: {}'.format(current_user.username))
     print('GET - ID: {}'.format(current_user.id))
 
     class ItemTable(Table):
+        classes = ["table table-striped"]
         food = Col('Food Entry')
         food_date = Col('Date')
         rank_id = Col('Rank')
@@ -105,8 +108,9 @@ def fooddiary():
             self.date = date
             self.rank = rank
 
-    items = session.query(Food).filter_by(user_id=current_user.id).all()
+    items = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).all()
     table = ItemTable(items)
+    print(table)
     # print(table.__html__())
 
 
@@ -117,6 +121,7 @@ def fooddiary():
 def fooddiary_post():
 
     class ItemTable(Table):
+        classes = ["table table-striped"]
         food = Col('Food Entry')
         food_date = Col('Date')
         rank_id = Col('Rank')
