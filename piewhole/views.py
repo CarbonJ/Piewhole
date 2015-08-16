@@ -37,9 +37,18 @@ class Item(object):
 
 def genfoodchart():
     now = datetime.datetime.now().strftime("%Y-%m-%d")
-    goodcount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=1).add_columns(Ranks.rank).count()
-    okaycount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=2).add_columns(Ranks.rank).count()
-    badcount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=3).add_columns(Ranks.rank).count()
+    goodcount = session.query(Food) \
+        .filter_by(user_id=current_user.id) \
+        .filter_by(food_date=now).join(Ranks) \
+        .filter_by(rank=1).add_columns(Ranks.rank).count()
+    okaycount = session.query(Food) \
+        .filter_by(user_id=current_user.id) \
+        .filter_by(food_date=now).join(Ranks) \
+        .filter_by(rank=2).add_columns(Ranks.rank).count()
+    badcount = session.query(Food) \
+        .filter_by(user_id=current_user.id) \
+        .filter_by(food_date=now).join(Ranks) \
+        .filter_by(rank=3).add_columns(Ranks.rank).count()
 
     custom_style = Style(
                     background='transparent',
@@ -211,9 +220,16 @@ def fooddiary_post():
     #return render_template("food.html", table=table)
 
 
-@piewhole.route("/weight")
+@piewhole.route("/weight", methods=['GET'])
 @login_required
 def weightinfo():
+    print('-- GET: Weight page rendered. --')
+    return render_template("weight.html")
+
+@piewhole.route("/weight", methods=['POST'])
+@login_required
+def weightinfo_post():
+    print('-- POST: Weight page rendered. --')
     return render_template("weight.html")
 
 @piewhole.route("/profile", methods=['GET'])

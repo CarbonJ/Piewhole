@@ -7,6 +7,21 @@ div.container {
     border-style: solid;*/
 }
 
+div.col-md-4 {
+    background: lightblue
+
+}
+
+div.col-md-3 {
+    background: lightyellow
+
+}
+
+div.col-md-5 {
+    background: lightgreen
+
+}
+
 div.row {
 /*    background: lightblue;*/
     margin-top: 4px;
