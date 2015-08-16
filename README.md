@@ -23,13 +23,13 @@ Heroku Example: https://arcane-tundra-5901.herokuapp.com/
   - [x] Intro/index page
   - [x] User registration
   - [x] User login
-  - [ ] User Profile
-  - [ ] Food Diary
+  - [x] User Profile
+  - [ ] Food Diary (in progress)
   - [ ] Weight History
 - [ ] Refactor
   - [ ] Clean comments/documentation
   - [x] Add email checking to login function
-  - [ ] What if values of weight/health are NULL
+  - [x] What if values of weight/health are NULL
 - [ ] Release
   - [ ] Tag as 1.0 release
   - [ ] Create development branch
