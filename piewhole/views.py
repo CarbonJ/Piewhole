@@ -44,8 +44,9 @@ def genfoodchart():
     pie_chart.add('Good', goodcount)
     pie_chart.add('Okay', okaycount)
     pie_chart.add('Bad', badcount)
-    pie_chart.render_to_file('./piewhole/static/images/food.svg')
-
+    #pie_chart.render_to_file('./piewhole/static/images/food.svg')
+    chart = pie_chart.render(is_unicode=True)
+    return chart
 
 @piewhole.route("/")
 def index():
@@ -136,9 +137,9 @@ def fooddiary():
     # print(table.__html__())
 
     #Generate chart for page load
-    genfoodchart()
+    chart = genfoodchart()
 
-    return render_template("food.html", table=table)
+    return render_template("food.html", table=table, chart=chart)
 
 @piewhole.route("/food", methods=['POST'])
 @login_required
@@ -178,8 +179,6 @@ def fooddiary_post():
         update_food(food, 3, current_user.id, now)
     else:
         print('What the hell button as pushed?')
-
-    genfoodchart()
 
     return redirect(url_for('fooddiary', table=table))
     #return render_template("food.html", table=table)
