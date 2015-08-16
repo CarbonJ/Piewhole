@@ -13,7 +13,7 @@ manager = Manager(piewhole)
 @manager.command
 def run():
     port = int(os.environ.get('PORT', 8080))
-    piewhole.run(host='127.0.0.1', port=port, debug=True)
+    piewhole.run(host='locke.local', port=port, debug=True)
 
 @manager.command
 def adduser():

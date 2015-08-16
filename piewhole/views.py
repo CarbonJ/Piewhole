@@ -64,7 +64,7 @@ def register_user_post():
                 session.add(user)
                 session.commit()
                 login_user(user, remember=True)
-                return redirect(url_for('fooddiary'))
+                return redirect(url_for('profile'))
             else:
                 flash('passwords dont match', 'warning')
                 return render_template("register.html")
@@ -94,7 +94,13 @@ def login_post():
         return redirect(url_for('login'))
 
     login_user(user)
-    return redirect(url_for('profile'))
+
+    existinggoal = session.query(Goals).filter_by(user_id=current_user.id).first()
+
+    if existinggoal:
+        return redirect(url_for('fooddiary'))
+    else:
+        return redirect(url_for('profile'))
 
 @piewhole.route('/logout')
 def logout():
