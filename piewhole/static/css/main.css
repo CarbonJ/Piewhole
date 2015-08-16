@@ -14,3 +14,6 @@ div.row {
 /*    border-style: solid;
     border-width: 1px;*/
 }
+
+div.table-wrapper { height: 400px; overflow: auto;
+}

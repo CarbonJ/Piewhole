@@ -1,6 +1,7 @@
 import datetime
 import pygal
 from pygal.style import Style
+from pygal import Config
 from flask_table import Table, Col
 from piewhole import piewhole
 
@@ -40,7 +41,6 @@ def genfoodchart():
     okaycount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=2).add_columns(Ranks.rank).count()
     badcount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=3).add_columns(Ranks.rank).count()
 
-
     custom_style = Style(
                     background='transparent',
                     plot_background='transparent',
@@ -52,7 +52,17 @@ def genfoodchart():
                     transition='400ms ease-in',
                     colors=('#5cb85c', '#f0ad4e', '#d9534f'))
 
-    pie_chart = pygal.Pie(style=custom_style, inner_radius=.55, print_labels=True, print_values=True, no_data_text='Need to add some food!')
+    config = Config()
+    config.show_legend = True
+    config.human_readable = True
+    config.fill = True
+    config.inner_radius=.55
+    config.style=custom_style
+    config.print_labels=True
+    config.print_values=True
+    config.no_data_text='Need to add some food!'
+
+    pie_chart = pygal.Pie(config)
     pie_chart.title = "Current Food Stats"
     pie_chart.add('Good', goodcount)
     pie_chart.add('Okay', okaycount)
