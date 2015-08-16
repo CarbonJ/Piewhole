@@ -24,7 +24,7 @@ Heroku Example: https://arcane-tundra-5901.herokuapp.com/
   - [x] User registration
   - [x] User login
   - [x] User Profile
-  - [ ] Food Diary (in progress)
+  - [x] Food Diary
   - [ ] Weight History
 - [ ] Refactor
   - [ ] Clean comments/documentation
