@@ -1,88 +1,44 @@
-    {% extends "base.html" %}
+{% extends "base.html" %}
 {% block content %}
 
 <div class="container">
+    <!-- HEADER START -->
     <div class="row" >
         <class='col-sm-12'>
         <h1>Food</h1>
     </div>
-    <div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="section">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="section" id="addfoodsection">
-                                <div class="container">
-                                <form role="form" method="POST">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <!-- <form role="form" method="POST"> -->
-                                                <div class="form-group" id="foodentry">
-                                                    <label class="control-label" for="quickentry">Quick Entry</label>
-                                                    <input class="form-control" id="quickentry"
-                                                    placeholder="Food Quick Entry" type="text">
-                                                </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="row text-center">
-                                        <div class="col-md-12">
-                                            <div class="btn-group" data-toggle="buttons">
-                                            <button id="submit" name="submit" value="good" type="submit" class="btn btn-lg btn-success" data-toggle="button">Good</button>
-                                            <button id="submit" name="submit" value="ok" type="submit" class="btn btn-lg btn-warning" data-toggle="button">Okay</button>
-                                            <button id="submit" name="submit" value="bad" type="submit" class="btn btn-lg btn-danger" data-toggle="button">Bad</button>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png"
-                            class="center-block img-responsive">
-                        </div>
-                        <div class="col-md-8" id="diarydiv">
-                            <table class="table" id="divtable">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th contenteditable="true">Entry</th>
-                                        <th>Date</th>
-                                        <th>Rank</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+    <!-- HEADER END -->
+    <!-- MAIN BODY START-->
+    <div class="col-md-12">
+        <div class="row">
+            <div class="container">
+            <!-- FORM -->
+            <form role="form" method="POST">
+                <div class="form-group" id="foodentry">
+                    <label class="control-label" for="quickentry">Quick Entry</label>
+                    <input class="form-control" id="quickentry" placeholder="Food Quick Entry" type="text">
+                </div>
+                <div class="row text-center">
+                    <div class="btn-group">
+                        <button id="submit" name="submit" value="good" type="submit" class="btn btn-success">Good!</button>
+                        <button id="submit" name="submit" value="ok" type="submit" class="btn btn-warning">Okay</button>
+                        <button id="submit" name="submit" value="bad" type="submit" class="btn btn-danger">Bad</button>
                     </div>
                 </div>
+            </form>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <!-- CHART -->
+            <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="center-block img-responsive">
+        </div>
+        <div class="col-md-6">
+            <!-- TABLE -->
+            <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png" class="center-block img-responsive">
+        </div>
+    </div>
+    <!-- MAIN BODY END -->
 </div>
 {% endblock %}

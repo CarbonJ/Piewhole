@@ -155,7 +155,6 @@ def profile_post():
             flash('Need weight and health in number format.', 'danger')
             return
 
-
         print('POST: Trying to make changes')
         testweight = session.query(Goals).filter_by(user_id=current_user.id).first()
 
