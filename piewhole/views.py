@@ -1,7 +1,8 @@
+import datetime
 from piewhole import piewhole
 
 from .database import session
-from .models import Users, Goals, Food
+from .models import Users, Goals, Food, Ranks
 
 from flask import render_template
 from flask import request, redirect, url_for
@@ -95,6 +96,9 @@ def fooddiary():
 @piewhole.route("/food", methods=['POST'])
 @login_required
 def fooddiary_post():
+    food = request.form['quickentry']
+    now = datetime.datetime.now().strftime("%Y-%m-%d")
+
     print('-- POST: Food page rendered. --')
     print('POST - User: {}'.format(current_user.username))
     print('POST - ID: {}'.format(current_user.id))
@@ -107,18 +111,27 @@ def fooddiary_post():
     # rank_id = Column(Integer, ForeignKey('Ranks.id'))
     # user_id = Column(Integer, ForeignKey('Users.id'))
 
-    def update_food(food, rank):
+    def update_food(food, rank, user_id, date):
+        rank = session.query(Ranks).filter_by(rank=rank).first()
+
         print('POST - in update_food function')
-        # print('POST - Food item: {}'.format(request.form['quickentry']))
-        pass
+        print("POST - Trying {} for date".format(date))
+        print("POST - Trying {} for food".format(food))
+        print("POST - Trying '{}' for rank".format(rank.rankdesc))
+
+        newfood = Food(food=food, food_date=now, rank_id=rank.id, user_id=current_user.id)
+        session.add(newfood)
+        session.commit()
 
     if request.form['submit'] == 'good':
         print('-- POST: Good food submitted --')
-        update_food('food', 1, )
+        update_food(food, 1, current_user.id, now)
     elif request.form['submit'] == 'ok':
         print('-- POST: Okay food submitted --')
+        update_food(food, 2, current_user.id, now)
     elif request.form['submit'] == 'bad':
         print('-- POST: Bad food submitted --')
+        update_food(food, 3, current_user.id, now)
     else:
         print('What the hell button as pushed?')
 
