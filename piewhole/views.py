@@ -1,4 +1,5 @@
 import datetime
+import pygal
 from flask_table import Table, Col
 from piewhole import piewhole
 
@@ -16,6 +17,7 @@ from flask.ext.login import login_required
 from flask.ext.login import current_user
 from flask.ext.login import logout_user
 from flask_table import Table, Col
+
 
 from validate_email import validate_email
 
@@ -120,6 +122,17 @@ def fooddiary():
     table = ItemTable(items)
     # print(table.__html__())
 
+    goodcount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=1).add_columns(Ranks.rank).count()
+    okaycount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=2).add_columns(Ranks.rank).count()
+    badcount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=3).add_columns(Ranks.rank).count()
+
+    pie_chart = pygal.Pie()
+    pie_chart.title = "Current Stats"
+    pie_chart.add('Good', goodcount)
+    pie_chart.add('Okay', okaycount)
+    pie_chart.add('Bad', badcount)
+    pie_chart.render_to_file('./piewhole/static/images/food.svg')
+
     return render_template("food.html", table=table)
 
 @piewhole.route("/food", methods=['POST'])
@@ -160,6 +173,17 @@ def fooddiary_post():
         update_food(food, 3, current_user.id, now)
     else:
         print('What the hell button as pushed?')
+
+    # goodcount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=1).add_columns(Ranks.rank).count()
+    # okaycount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=2).add_columns(Ranks.rank).count()
+    # badcount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=3).add_columns(Ranks.rank).count()
+
+    # pie_chart = pygal.Pie()
+    # pie_chart.title = "Current Stats"
+    # pie_chart.add('Good', goodcount)
+    # pie_chart.add('Okay', okaycount)
+    # pie_chart.add('Bad', badcount)
+    # pie_chart.render_to_file('./piewhole/static/images/food.svg')
 
     return redirect(url_for('fooddiary', table=table))
     # return render_template("food.html", table=table)
