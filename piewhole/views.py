@@ -16,8 +16,20 @@ from flask.ext.login import current_user
 from flask.ext.login import logout_user
 from flask_table import Table, Col
 
-
 from validate_email import validate_email
+
+class ItemTable(Table):
+    classes = ["table table-striped"]
+    food = Col('Food Entry')
+    food_date = Col('Date')
+    rank_id = Col('Rank')
+
+class Item(object):
+    def __init__(self, entry, date, rank):
+        self.entry = entry
+        self.date = date
+        self.rank = rank
+
 
 @piewhole.route("/")
 def index():
@@ -96,18 +108,6 @@ def fooddiary():
     print('GET - User: {}'.format(current_user.username))
     print('GET - ID: {}'.format(current_user.id))
 
-    class ItemTable(Table):
-        classes = ["table table-striped"]
-        food = Col('Food Entry')
-        food_date = Col('Date')
-        rank_id = Col('Rank')
-
-    class Item(object):
-        def __init__(self, entry, date, rank):
-            self.entry = entry
-            self.date = date
-            self.rank = rank
-
     items = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).all()
     table = ItemTable(items)
     print(table)
@@ -119,18 +119,6 @@ def fooddiary():
 @piewhole.route("/food", methods=['POST'])
 @login_required
 def fooddiary_post():
-
-    class ItemTable(Table):
-        classes = ["table table-striped"]
-        food = Col('Food Entry')
-        food_date = Col('Date')
-        rank_id = Col('Rank')
-
-    class Item(object):
-        def __init__(self, entry, date, rank):
-            self.entry = entry
-            self.date = date
-            self.rank = rank
 
     items = session.query(Food).filter_by(user_id=current_user.id).all()
     table = ItemTable(items)
