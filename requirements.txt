@@ -4,6 +4,7 @@ Flask-Login
 Flask-Migrate
 Flask-Script
 Flask-SQLAlchemy
+flask_table
 itsdangerous
 Jinja2
 Mako
@@ -13,3 +14,4 @@ SQLAlchemy
 Werkzeug
 gunicorn
 validate_email
+pygal

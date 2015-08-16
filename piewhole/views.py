@@ -1,4 +1,5 @@
 import datetime
+from flask_table import Table, Col
 from piewhole import piewhole
 
 from .database import session
@@ -13,6 +14,7 @@ from flask.ext.login import login_user
 from flask.ext.login import login_required
 from flask.ext.login import current_user
 from flask.ext.login import logout_user
+from flask_table import Table, Col
 
 
 from validate_email import validate_email
@@ -91,11 +93,44 @@ def fooddiary():
     print('-- GET: Food page rendered. --')
     print('GET - User: {}'.format(current_user.username))
     print('GET - ID: {}'.format(current_user.id))
-    return render_template("food.html")
+
+    class ItemTable(Table):
+        food = Col('Food Entry')
+        food_date = Col('Date')
+        rank_id = Col('Rank')
+
+    class Item(object):
+        def __init__(self, entry, date, rank):
+            self.entry = entry
+            self.date = date
+            self.rank = rank
+
+    items = session.query(Food).filter_by(user_id=current_user.id).all()
+    table = ItemTable(items)
+    # print(table.__html__())
+
+
+    return render_template("food.html", table=table)
 
 @piewhole.route("/food", methods=['POST'])
 @login_required
 def fooddiary_post():
+
+    class ItemTable(Table):
+        food = Col('Food Entry')
+        food_date = Col('Date')
+        rank_id = Col('Rank')
+
+    class Item(object):
+        def __init__(self, entry, date, rank):
+            self.entry = entry
+            self.date = date
+            self.rank = rank
+
+    items = session.query(Food).filter_by(user_id=current_user.id).all()
+    table = ItemTable(items)
+    # print(table.__html__())
+
     food = request.form['quickentry']
     now = datetime.datetime.now().strftime("%Y-%m-%d")
 
@@ -104,12 +139,6 @@ def fooddiary_post():
     print('POST - ID: {}'.format(current_user.id))
     print('POST - Food: {}'.format(request.form['quickentry']))
 
-    # __tablename__ = 'Food'
-    # id = Column(Integer, primary_key=True, unique=True)
-    # food = Column(String)
-    # food_date = Column(Date)
-    # rank_id = Column(Integer, ForeignKey('Ranks.id'))
-    # user_id = Column(Integer, ForeignKey('Users.id'))
 
     def update_food(food, rank, user_id, date):
         rank = session.query(Ranks).filter_by(rank=rank).first()
@@ -135,7 +164,8 @@ def fooddiary_post():
     else:
         print('What the hell button as pushed?')
 
-    return redirect(url_for('fooddiary'))
+    return redirect(url_for('fooddiary', table=table))
+    # return render_template("food.html", table=table)
 
 
 @piewhole.route("/weight")
