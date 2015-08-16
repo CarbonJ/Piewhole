@@ -4,6 +4,7 @@ from piewhole import piewhole
 
 from .database import session
 from .models import Users, Goals, Food, Ranks
+from sqlalchemy import desc
 
 from flask import render_template
 from flask import request, redirect, url_for
@@ -22,7 +23,8 @@ class ItemTable(Table):
     classes = ["table table-striped"]
     food = Col('Food Entry')
     food_date = Col('Date')
-    rank_id = Col('Rank')
+    #rank_id = Col('Rank')
+    rankdesc = Col('Rank')
 
 class Item(object):
     def __init__(self, entry, date, rank):
@@ -108,7 +110,19 @@ def fooddiary():
     print('GET - User: {}'.format(current_user.username))
     print('GET - ID: {}'.format(current_user.id))
 
-    items = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).all()
+
+#     q = (session.query(Group, Member, Item, Version)
+#         .join(Member)
+#         .join(Item)
+#         .join(Version)
+#         .filter(Version.name == my_version)
+#         .order_by(Group.number)
+#         .order_by(Member.number)
+#         ).all()
+# print_tree(q)
+
+    items = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).add_columns(Food.food, Food.food_date, Ranks.rankdesc).order_by(Food.id.desc()).all()
+
     table = ItemTable(items)
     print(table)
     # print(table.__html__())
@@ -119,13 +133,11 @@ def fooddiary():
 @piewhole.route("/food", methods=['POST'])
 @login_required
 def fooddiary_post():
-
-    items = session.query(Food).filter_by(user_id=current_user.id).all()
-    table = ItemTable(items)
-    # print(table.__html__())
-
     food = request.form['quickentry']
     now = datetime.datetime.now().strftime("%Y-%m-%d")
+
+    items = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).add_columns(Food.food, Food.food_date, Ranks.rankdesc).order_by(Food.id.desc()).all()
+    table = ItemTable(items)
 
     print('-- POST: Food page rendered. --')
     print('POST - User: {}'.format(current_user.username))
