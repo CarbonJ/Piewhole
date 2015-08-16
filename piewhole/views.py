@@ -43,6 +43,9 @@ def genfoodchart():
 
     custom_style = Style(
                     background='transparent',
+                    value_font_size=24,
+                    title_font_size=36,
+                    margin=1,
                     plot_background='transparent',
                     foreground='#53E89B',
                     foreground_strong='#53A0E8',
@@ -54,9 +57,11 @@ def genfoodchart():
 
     config = Config()
     config.show_legend = True
+    config.legend_at_bottom=True
+    config.legend_at_bottom_columns=1
+    config.legend_box_size=10
     config.human_readable = True
     config.fill = True
-    config.inner_radius=.55
     config.style=custom_style
     config.print_labels=True
     config.print_values=True
