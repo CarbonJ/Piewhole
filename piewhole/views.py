@@ -95,9 +95,26 @@ def fooddiary():
 @piewhole.route("/food", methods=['POST'])
 @login_required
 def fooddiary_post():
+    print('-- POST: Food page rendered. --')
+    print('POST - User: {}'.format(current_user.username))
+    print('POST - ID: {}'.format(current_user.id))
+    print('POST - Food: {}'.format(request.form['quickentry']))
+
+    # __tablename__ = 'Food'
+    # id = Column(Integer, primary_key=True, unique=True)
+    # food = Column(String)
+    # food_date = Column(Date)
+    # rank_id = Column(Integer, ForeignKey('Ranks.id'))
+    # user_id = Column(Integer, ForeignKey('Users.id'))
+
+    def update_food(food, rank):
+        print('POST - in update_food function')
+        # print('POST - Food item: {}'.format(request.form['quickentry']))
+        pass
 
     if request.form['submit'] == 'good':
         print('-- POST: Good food submitted --')
+        update_food('food', 1, )
     elif request.form['submit'] == 'ok':
         print('-- POST: Okay food submitted --')
     elif request.form['submit'] == 'bad':
