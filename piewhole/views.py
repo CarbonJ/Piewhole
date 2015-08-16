@@ -33,6 +33,19 @@ class Item(object):
         self.date = date
         self.rank = rank
 
+def genfoodchart():
+    now = datetime.datetime.now().strftime("%Y-%m-%d")
+    goodcount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=1).add_columns(Ranks.rank).count()
+    okaycount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=2).add_columns(Ranks.rank).count()
+    badcount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=3).add_columns(Ranks.rank).count()
+
+    pie_chart = pygal.Pie(print_labels=True, print_values=True, no_data_text='Need to add some food!')
+    pie_chart.title = "Current Stats"
+    pie_chart.add('Good', goodcount)
+    pie_chart.add('Okay', okaycount)
+    pie_chart.add('Bad', badcount)
+    pie_chart.render_to_file('./piewhole/static/images/food.svg')
+
 
 @piewhole.route("/")
 def index():
@@ -122,16 +135,8 @@ def fooddiary():
     table = ItemTable(items)
     # print(table.__html__())
 
-    goodcount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=1).add_columns(Ranks.rank).count()
-    okaycount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=2).add_columns(Ranks.rank).count()
-    badcount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=3).add_columns(Ranks.rank).count()
-
-    pie_chart = pygal.Pie()
-    pie_chart.title = "Current Stats"
-    pie_chart.add('Good', goodcount)
-    pie_chart.add('Okay', okaycount)
-    pie_chart.add('Bad', badcount)
-    pie_chart.render_to_file('./piewhole/static/images/food.svg')
+    #Generate chart for page load
+    genfoodchart()
 
     return render_template("food.html", table=table)
 
@@ -174,19 +179,10 @@ def fooddiary_post():
     else:
         print('What the hell button as pushed?')
 
-    # goodcount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=1).add_columns(Ranks.rank).count()
-    # okaycount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=2).add_columns(Ranks.rank).count()
-    # badcount = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).filter_by(rank=3).add_columns(Ranks.rank).count()
-
-    # pie_chart = pygal.Pie()
-    # pie_chart.title = "Current Stats"
-    # pie_chart.add('Good', goodcount)
-    # pie_chart.add('Okay', okaycount)
-    # pie_chart.add('Bad', badcount)
-    # pie_chart.render_to_file('./piewhole/static/images/food.svg')
+    genfoodchart()
 
     return redirect(url_for('fooddiary', table=table))
-    # return render_template("food.html", table=table)
+    #return render_template("food.html", table=table)
 
 
 @piewhole.route("/weight")
