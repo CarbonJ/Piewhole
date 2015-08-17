@@ -19,13 +19,13 @@ Heroku Example: https://arcane-tundra-5901.herokuapp.com/
   - [ ] Smoke tests (in progress)
   - [ ] Integration tests (in progress)
   - [ ] Acceptance tests (in progress)
-- [ ] Primary Development
+- [x] Primary Development
   - [x] Intro/index page
   - [x] User registration
   - [x] User login
   - [x] User Profile
   - [x] Food Diary
-  - [ ] Weight History
+  - [x] Weight History
 - [ ] Refactor
   - [ ] Clean comments/documentation
   - [x] Add email checking to login function
@@ -34,3 +34,5 @@ Heroku Example: https://arcane-tundra-5901.herokuapp.com/
   - [ ] Tag as 1.0 release
   - [ ] Create development branch
   - [ ] Find/determine host
+- [ ] 2.0 Features
+  - [ ]  Add 'secondary_range' to weight chart with percent heathly food
