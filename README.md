@@ -29,6 +29,7 @@ Heroku Example: https://arcane-tundra-5901.herokuapp.com/
   - [ ] Clean index page
   - [ ] Add debug logging
   - [ ] Add to testing scripts
+  - [ ] Rounding function
 - [ ] Release
   - [ ] Tag as 1.0 release
   - [ ] Create development branch
