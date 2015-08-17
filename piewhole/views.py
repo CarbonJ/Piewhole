@@ -152,6 +152,7 @@ def register_user_get():
 
 @piewhole.route('/register', methods=['POST'])
 def register_user_post():
+    session.rollback()
     username = request.form['username']
     email = request.form['email'].lower()
     password1 = request.form['password1']
@@ -238,6 +239,7 @@ def fooddiary():
 @piewhole.route("/food", methods=['POST'])
 @login_required
 def fooddiary_post():
+    session.rollback()
     food = request.form['quickentry']
     now = datetime.datetime.now().strftime("%Y-%m-%d")
 
@@ -319,6 +321,7 @@ def weightinfo():
 @piewhole.route("/weight", methods=['POST'])
 @login_required
 def weightinfo_post():
+    session.rollback()
     weight = request.form['quickentry']
     now = datetime.datetime.now().strftime("%Y-%m-%d")
     print('-- POST: Weight page rendered. --')
@@ -359,6 +362,7 @@ def profile():
 @piewhole.route("/profile", methods=['POST'])
 @login_required
 def profile_post():
+    session.rollback()
 
     def update_goal():
         print('POST USER: {}'.format(current_user.username))
