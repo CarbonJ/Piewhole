@@ -55,7 +55,10 @@ def genweightchart():
         .order_by(Weight.id.desc()) \
         .first()
 
-    maxrange = (int(maxweight.weight) + 50)
+    if maxweight is None:
+        maxrange = 100
+    else:
+        maxrange = (int(maxweight.weight) + 50)
 
     custom_style = Style(
                 background='transparent',
@@ -294,8 +297,16 @@ def weightinfo():
         .filter_by(user_id=current_user.id) \
         .order_by(Weight.id.desc()) \
         .first()
-    weightgoal = goals.weight_goal
-    currentweight = weight.weight
+
+    if goals is None:
+        weightgoal = 0
+    else:
+        weightgoal = goals.weight_goal
+
+    if weight is None:
+        currentweight = 0
+    else:
+        currentweight = weight.weight
 
     delta = currentweight - weightgoal
 
