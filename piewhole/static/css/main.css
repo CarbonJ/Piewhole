@@ -1,33 +1,9 @@
 body { padding-top: 70px;
-/*       background: lightyellow;*/
 }
-
-div.container {
-/*    background: lightgray;
-    border-style: solid;*/
-}
-/*
-div.col-md-4 {
-    background: lightblue
-
-}
-
-div.col-md-3 {
-    background: lightyellow
-
-}
-
-div.col-md-5 {
-    background: lightgreen
-
-}*/
 
 div.row {
-/*    background: lightblue;*/
     margin-top: 4px;
     margin-bottom: 4px;
-/*    border-style: solid;
-    border-width: 1px;*/
 }
 
 div.table-wrapper { height: 400px; overflow: auto;

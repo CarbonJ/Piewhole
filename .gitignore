@@ -1,4 +1,5 @@
 env
 planning
 ghostdriver.log
+piewhole.log
 *.db

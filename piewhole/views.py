@@ -1,4 +1,6 @@
+import logging
 import datetime
+
 import pygal
 from pygal.style import Style
 from pygal import Config
@@ -20,8 +22,9 @@ from flask.ext.login import current_user
 from flask.ext.login import logout_user
 from flask_table import Table, Col
 
-
 from validate_email import validate_email
+
+logging.basicConfig(filename="piewhole.log", level=logging.DEBUG)
 
 class FoodTable(Table):
     classes = ["table table-striped"]
@@ -40,6 +43,7 @@ class WeightTable(Table):
 #         self.date = date
 #         self.rank = rank
 
+# TDB: Round to nearest .1
 def myround(x, base=.1):
     '''Round any number to nearest base'''
     return int(base * round(float(x)/base))
@@ -84,10 +88,7 @@ def genweightchart():
     config.no_data_text='Need to add some weight measurements!'
 
     wlist = []
-
     for entry in enumerate(weighthistory):
-        print(entry)
-        print(entry[1].weight)
         wlist.append(entry[1].weight)
 
     line_chart = pygal.Line(config)
@@ -164,7 +165,8 @@ def register_user_post():
     user = session.query(Users).filter_by(email=email).first()
 
     if user:
-        print('Email already exists')
+        logging.info("register_user_post: {}} already exists, warning user") \
+            .format(email)
         flash('A user already exists with that email address', 'danger')
         return redirect(url_for('register_user_get'))
     else:
@@ -229,7 +231,12 @@ def fooddiary():
     print('GET - User: {}'.format(current_user.username))
     print('GET - ID: {}'.format(current_user.id))
 
-    items = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).add_columns(Food.food, Food.food_date, Ranks.rankdesc).order_by(Food.id.desc()).all()
+    items = session.query(Food) \
+        .filter_by(user_id=current_user.id) \
+        .filter_by(food_date=now) \
+        .join(Ranks) \
+        .add_columns(Food.food, Food.food_date, Ranks.rankdesc) \
+        .order_by(Food.id.desc()).all()
 
     table = FoodTable(items)
     # print(table.__html__())
@@ -246,7 +253,11 @@ def fooddiary_post():
     food = request.form['quickentry']
     now = datetime.datetime.now().strftime("%Y-%m-%d")
 
-    items = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).add_columns(Food.food, Food.food_date, Ranks.rankdesc).order_by(Food.id.desc()).all()
+    items = session.query(Food) \
+        .filter_by(user_id=current_user.id) \
+        .filter_by(food_date=now).join(Ranks) \
+        .add_columns(Food.food, Food.food_date, Ranks.rankdesc) \
+        .order_by(Food.id.desc()).all()
     table = FoodTable(items)
 
     print('-- POST: Food page rendered. --')
@@ -407,7 +418,9 @@ def profile_post():
                 flash('Need both a weight goal and health percentage.', 'danger')
         else:
             print('POST: Goals already exists, so updating.')
-            session.query(Goals).filter_by(user_id=current_user.id).update({"weight_goal": weightgoal})
+            session.query(Goals) \
+                .filter_by(user_id=current_user.id) \
+                .update({"weight_goal": weightgoal})
             session.query(Goals).filter_by(user_id=current_user.id).update({"health_goal": goodgoal})
             session.commit()
 
@@ -443,7 +456,9 @@ def profile_post():
         if user and check_password_hash(user.password, pwd):
             if pw1 == pw2:
                 print('POST: New passwords good.')
-                session.query(Users).filter_by(id=current_user.id).update({'password': generate_password_hash(pw1)})
+                session.query(Users) \
+                .filter_by(id=current_user.id) \
+                .update({'password': generate_password_hash(pw1)})
                 session.commit()
             else:
                 flash('The new passwords do not match, please try again.', 'warning')
@@ -453,12 +468,15 @@ def profile_post():
 
     if request.form['submit'] == 'user':
         print('-- POST: User section submitted --')
+        logging.debug("profile_post: userid {} changed user details".format(current_user.id))
         update_user()
     elif request.form['submit'] == 'goal':
         print('-- POST: Goal section submitted --')
+        logging.debug("profile_post: userid {} changed goal details".format(current_user.id))
         update_goal()
     elif request.form['submit'] == 'password':
         print('-- POST: Password section submitted --')
+        logging.debug("profile_post: userid {} changed passwrd details".format(current_user.id))
         update_password()
     else:
         print('What the hell button as pushed?')

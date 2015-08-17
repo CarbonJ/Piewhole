@@ -7,5 +7,3 @@ piewhole.config.from_object(config_path)
 
 from . import login
 from . import views
-# assumes filters used
-#from . import filters
