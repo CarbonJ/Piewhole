@@ -167,34 +167,30 @@ def register_user_post():
     password2 = request.form['password2']
     user = session.query(Users).filter_by(email=email).first()
 
-    logging.info("register_user_post: attempting to register users {}") \
-    .format(email)
-
     if user:
-        logging.info("register_user_post: {} already exists, warning user") \
-            .format(email)
+        logging.info("REGISTER_USER_POST: '{}' already exists, warning user".format(email))
         flash('A user already exists with that email address, please re-enter a new', 'danger')
         return redirect(url_for('register_user_get'))
     else:
-        logging.info("register_user_post: user {} being created").format(email)
+        logging.info("REGISTER_USER_POST: attempting to create '{}'".format(email))
         if validate_email(email) == True:
             if password1 == password2:
-                logging.debug("register_user_post: user {} passwords' match").format(email)
+                logging.debug("REGISTER_USER_POST: user '{}' passwords match".format(email))
                 user = Users(username=username, \
                             email=email, \
                             password=generate_password_hash(password1))
                 session.add(user)
                 session.commit()
                 login_user(user, remember=True)
+                logging.info("REGISTER_USER_POST: user '{}' created".format(email))
                 return redirect(url_for('profile'))
             else:
-                flash('passwords dont match', 'warning')
+                flash("Passwords don't match, please try again.", 'warning')
                 return render_template("register.html")
             return render_template("login.html")
         else:
-            logging.info("register_user_post: {} is a'bad' email, warning user") \
-            .format(email)
-            flash('Bad email', 'warning')
+            logging.info("REGISTER_USER_POST: '{}' is a'bad' email, warning user".format(email))
+            flash('Incorrect email format entered, please try again.', 'warning')
             return render_template("register.html")
 
 

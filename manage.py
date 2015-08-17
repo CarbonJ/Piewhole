@@ -1,3 +1,4 @@
+import logging
 import os
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
@@ -49,5 +50,5 @@ migrate = Migrate(piewhole, DB(Base.metadata))
 manager.add_command('db', MigrateCommand)
 
 if __name__ == '__main__':
-    print(os.environ.get("PIEWHOLEKEY", ""))
+    logging.info("Application start")
     manager.run()
