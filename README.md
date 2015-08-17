@@ -14,11 +14,7 @@ Heroku Example: https://arcane-tundra-5901.herokuapp.com/
 - [x] Design
   - [x] Database modeling
   - [x] Database migrations
-  - [x] Web stubts
-- [ ] Testing
-  - [ ] Smoke tests (in progress)
-  - [ ] Integration tests (in progress)
-  - [ ] Acceptance tests (in progress)
+  - [x] Web stubs
 - [x] Primary Development
   - [x] Intro/index page
   - [x] User registration
@@ -30,9 +26,15 @@ Heroku Example: https://arcane-tundra-5901.herokuapp.com/
   - [ ] Clean comments/documentation
   - [x] Add email checking to login function
   - [x] What if values of weight/health are NULL
+  - [ ] Clean index page
+  - [ ] Add debug logging
+  - [ ] Add to testing scripts
 - [ ] Release
   - [ ] Tag as 1.0 release
   - [ ] Create development branch
-  - [ ] Find/determine host
+  - [x] Find/determine host
+  - [ ] Add license
+  - [ ] Clean github
 - [ ] 2.0 Features
   - [ ]  Add 'secondary_range' to weight chart with percent heathly food
+  - [ ]  iOS homescreen icon

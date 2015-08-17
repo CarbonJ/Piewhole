@@ -1,3 +1,4 @@
 env
 planning
+ghostdriver.log
 *.db
