@@ -157,7 +157,7 @@ def register_user_get():
 
 @piewhole.route('/register', methods=['POST'])
 def register_user_post():
-    '''Register a new new.  Ensure email is valid and not already in use.'''
+    '''Register a new user.  Ensure email is valid and not already in use.'''
     #Rollback any old/stale transaction
     session.rollback()
 
@@ -196,19 +196,19 @@ def register_user_post():
 
 @piewhole.route("/login", methods=['GET'])
 def login():
+    '''Route to login page'''
     return render_template("login.html")
 
 @piewhole.route("/login", methods=['POST'])
 def login_post():
-    # TODO: add check if email not in write format
-    #print('form_email: {}'.format(request.form['email']))
-    #print('form_password: {}'.format(request.form['password']))
+    '''Authenticate user'''
 
     email = request.form['email']
     password = request.form['password']
     user = session.query(Users).filter_by(email=email).first()
     if not user or not check_password_hash(user.password, password):
         print('No user found')
+        logging.info("LOGIN_POST: '{}' can't login, warning user".format(email))
         flash('Incorrect user name or password', 'danger')
         return redirect(url_for('login'))
 
