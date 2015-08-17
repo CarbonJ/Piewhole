@@ -6,7 +6,7 @@ from flask_table import Table, Col
 from piewhole import piewhole
 
 from .database import session
-from .models import Users, Goals, Food, Ranks
+from .models import Users, Goals, Food, Ranks, Weight
 from sqlalchemy import desc
 
 from flask import render_template
@@ -23,17 +23,75 @@ from flask_table import Table, Col
 
 from validate_email import validate_email
 
-class ItemTable(Table):
+class FoodTable(Table):
     classes = ["table table-striped"]
     food = Col('Food Entry')
     food_date = Col('Date')
     rankdesc = Col('Rank')
 
-class Item(object):
-    def __init__(self, entry, date, rank):
-        self.entry = entry
-        self.date = date
-        self.rank = rank
+class WeightTable(Table):
+    classes = ["table table-striped"]
+    weight = Col('Weight Entry')
+    weight_date = Col('Date')
+
+# class Item(object):
+#     def __init__(self, entry, date, rank):
+#         self.entry = entry
+#         self.date = date
+#         self.rank = rank
+
+def myround(x, base=.1):
+    '''Round any number to nearest base'''
+    return int(base * round(float(x)/base))
+
+def genweightchart():
+    weighthistory = session.query(Weight) \
+        .filter_by(user_id=current_user.id) \
+        .order_by(Weight.id.desc()) \
+        .all()
+
+    maxweight = session.query(Weight) \
+        .filter_by(user_id=current_user.id) \
+        .order_by(Weight.id.desc()) \
+        .first()
+
+    maxrange = (int(maxweight.weight) + 50)
+
+    custom_style = Style(
+                background='transparent',
+                value_font_size=24,
+                title_font_size=36,
+                margin=1,
+                plot_background='transparent',
+                foreground='#53E89B',
+                foreground_strong='#53A0E8',
+                foreground_subtle='#630C0D',
+                opacity='.6',
+                opacity_hover='.9',
+                transition='400ms ease-in',
+                colors=('#5cb85c', '#f0ad4e', '#d9534f'))
+    config = Config()
+    config.show_legend = True
+    config.legend_at_bottom=True
+    config.y_labels = range(0, maxrange, 25)
+    config.human_readable = True
+    config.fill = True
+    config.style=custom_style
+    config.print_labels=True
+    config.no_data_text='Need to add some weight measurements!'
+
+    wlist = []
+
+    for entry in enumerate(weighthistory):
+        print(entry)
+        print(entry[1].weight)
+        wlist.append(entry[1].weight)
+
+    line_chart = pygal.Line(config)
+    line_chart.title = "Weight History"
+    line_chart.add('Values', wlist)
+    chart = line_chart.render(is_unicode=True)
+    return chart
 
 def genfoodchart():
     now = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -169,7 +227,7 @@ def fooddiary():
 
     items = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).add_columns(Food.food, Food.food_date, Ranks.rankdesc).order_by(Food.id.desc()).all()
 
-    table = ItemTable(items)
+    table = FoodTable(items)
     # print(table.__html__())
 
     #Generate chart for page load
@@ -184,7 +242,7 @@ def fooddiary_post():
     now = datetime.datetime.now().strftime("%Y-%m-%d")
 
     items = session.query(Food).filter_by(user_id=current_user.id).filter_by(food_date=now).join(Ranks).add_columns(Food.food, Food.food_date, Ranks.rankdesc).order_by(Food.id.desc()).all()
-    table = ItemTable(items)
+    table = FoodTable(items)
 
     print('-- POST: Food page rendered. --')
     print('POST - User: {}'.format(current_user.username))
@@ -223,14 +281,56 @@ def fooddiary_post():
 @piewhole.route("/weight", methods=['GET'])
 @login_required
 def weightinfo():
+    now = datetime.datetime.now().strftime("%Y-%m-%d")
+
     print('-- GET: Weight page rendered. --')
-    return render_template("weight.html")
+
+    goals = session.query(Goals) \
+        .filter_by(user_id=current_user.id) \
+        .first()
+    weight = session.query(Weight) \
+        .filter_by(user_id=current_user.id) \
+        .order_by(Weight.id.desc()) \
+        .first()
+    weightgoal = goals.weight_goal
+    currentweight = weight.weight
+
+    delta = currentweight - weightgoal
+
+    if delta > 0:
+        delta = delta
+    else:
+        delta = 0
+
+    entries = session.query(Weight) \
+        .filter_by(user_id=current_user.id) \
+        .order_by(Weight.id.desc()) \
+        .all()
+    table = WeightTable(entries)
+    chart = genweightchart()
+
+    print('GET - current goal: {}'.format(weightgoal))
+    print('GET - current weight: {}'.format(currentweight))
+    print('GET - delta: {}'.format(myround(delta)))
+
+    return render_template("weight.html", goal=weightgoal, \
+                            weight=currentweight, delta=delta, table=table, chart=chart)
 
 @piewhole.route("/weight", methods=['POST'])
 @login_required
 def weightinfo_post():
+    weight = request.form['quickentry']
+    now = datetime.datetime.now().strftime("%Y-%m-%d")
     print('-- POST: Weight page rendered. --')
-    return render_template("weight.html")
+    print("POST - Trying {} for date".format(now))
+    print("POST - Trying {} for weight".format(weight))
+
+    newweight = Weight(weight=weight, weight_date=now, user_id=current_user.id)
+
+    session.add(newweight)
+    session.commit()
+
+    return redirect(url_for('weightinfo'))
 
 @piewhole.route("/profile", methods=['GET'])
 @login_required
