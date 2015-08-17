@@ -27,28 +27,26 @@ from validate_email import validate_email
 logging.basicConfig(filename="piewhole.log", level=logging.DEBUG)
 
 class FoodTable(Table):
+    '''Column configuration for food entries'''
     classes = ["table table-striped"]
     food = Col('Food Entry')
     food_date = Col('Date')
     rankdesc = Col('Rank')
 
 class WeightTable(Table):
+    '''Column configuration for weight entries'''
     classes = ["table table-striped"]
     weight = Col('Weight Entry')
     weight_date = Col('Date')
 
-# class Item(object):
-#     def __init__(self, entry, date, rank):
-#         self.entry = entry
-#         self.date = date
-#         self.rank = rank
-
 # TDB: Round to nearest .1
+# Currently unused, need to be put in for delta calculations
 def myround(x, base=.1):
     '''Round any number to nearest base'''
     return int(base * round(float(x)/base))
 
 def genweightchart():
+    '''Generate weight chart with Pygal'''
     weighthistory = session.query(Weight) \
         .filter_by(user_id=current_user.id) \
         .order_by(Weight.id.desc()) \
@@ -85,7 +83,7 @@ def genweightchart():
     config.fill = True
     config.style=custom_style
     config.print_labels=True
-    config.no_data_text='Need to add some weight measurements!'
+    config.no_data_text='Add weight measurements!'
 
     wlist = []
     for entry in enumerate(weighthistory):
@@ -98,6 +96,7 @@ def genweightchart():
     return chart
 
 def genfoodchart():
+    '''Generate food chart with Pygal'''
     now = datetime.datetime.now().strftime("%Y-%m-%d")
     goodcount = session.query(Food) \
         .filter_by(user_id=current_user.id) \
@@ -148,34 +147,42 @@ def genfoodchart():
 
 @piewhole.route("/")
 def index():
+    '''Route to index page'''
     return render_template("intro.html")
 
 @piewhole.route('/register', methods=['GET'])
 def register_user_get():
+    '''Route to registration page'''
     return render_template('register.html')
 
 @piewhole.route('/register', methods=['POST'])
 def register_user_post():
+    '''Register a new new.  Ensure email is valid and not already in use.'''
+    #Rollback any old/stale transaction
     session.rollback()
+
     username = request.form['username']
     email = request.form['email'].lower()
     password1 = request.form['password1']
     password2 = request.form['password2']
-
     user = session.query(Users).filter_by(email=email).first()
 
+    logging.info("register_user_post: attempting to register users {}") \
+    .format(email)
+
     if user:
-        logging.info("register_user_post: {}} already exists, warning user") \
+        logging.info("register_user_post: {} already exists, warning user") \
             .format(email)
-        flash('A user already exists with that email address', 'danger')
+        flash('A user already exists with that email address, please re-enter a new', 'danger')
         return redirect(url_for('register_user_get'))
     else:
-        print('No pre-existing user found')
+        logging.info("register_user_post: user {} being created").format(email)
         if validate_email(email) == True:
-            print('check if password match')
             if password1 == password2:
-                print('passwords good')
-                user = Users(username=username, email=email, password=generate_password_hash(password1))
+                logging.debug("register_user_post: user {} passwords' match").format(email)
+                user = Users(username=username, \
+                            email=email, \
+                            password=generate_password_hash(password1))
                 session.add(user)
                 session.commit()
                 login_user(user, remember=True)
@@ -185,7 +192,8 @@ def register_user_post():
                 return render_template("register.html")
             return render_template("login.html")
         else:
-            print('Bad email')
+            logging.info("register_user_post: {} is a'bad' email, warning user") \
+            .format(email)
             flash('Bad email', 'warning')
             return render_template("register.html")
 
