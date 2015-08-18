@@ -30,9 +30,9 @@ Current Application: https://piewhole.carbontwelve.org (thank you Heroku)
   - [x] Add debug logging
   - [ ] Add to testing scripts
   - [x] Rounding function
-- [ ] Release
-  - [ ] Tag as 1.0 release
-  - [ ] Create development branch
+- [x] Release
+  - [x] Tag as 1.0 release
+  - [x] Create development branch
   - [x] Find/determine host
   - [x] Add license
 - [ ] 2.0 Features
