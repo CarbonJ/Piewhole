@@ -26,6 +26,7 @@ from validate_email import validate_email
 
 logging.basicConfig(filename="piewhole.log", level=logging.DEBUG)
 
+
 class FoodTable(Table):
     '''Column configuration for food entries'''
     classes = ["table table-striped"]
@@ -33,17 +34,17 @@ class FoodTable(Table):
     food_date = Col('Date')
     rankdesc = Col('Rank')
 
+
 class WeightTable(Table):
     '''Column configuration for weight entries'''
     classes = ["table table-striped"]
     weight = Col('Weight Entry')
     weight_date = Col('Date')
 
-# TDB: Round to nearest .1
-# Currently unused, need to be put in for delta calculations
-def myround(x, base=.1):
-    '''Round any number to nearest base'''
-    return int(base * round(float(x)/base))
+
+def myround(num):
+    return(round(num * (10**2)) / float(10**2))
+
 
 def genweightchart():
     '''Generate weight chart with Pygal'''
@@ -207,7 +208,6 @@ def login_post():
     password = request.form['password']
     user = session.query(Users).filter_by(email=email).first()
     if not user or not check_password_hash(user.password, password):
-        print('No user found')
         logging.info("LOGIN_POST: '{}' can't login, warning user".format(email))
         flash('Incorrect user name or password', 'danger')
         return redirect(url_for('login'))
@@ -223,17 +223,15 @@ def login_post():
 
 @piewhole.route('/logout')
 def logout():
+    '''Logout user'''
     logout_user()
     return redirect(url_for('index'))
 
 @piewhole.route("/food", methods=['GET'])
 @login_required
 def fooddiary():
+    '''Quick entry food to food diary'''
     now = datetime.datetime.now().strftime("%Y-%m-%d")
-
-    print('-- GET: Food page rendered. --')
-    print('GET - User: {}'.format(current_user.username))
-    print('GET - ID: {}'.format(current_user.id))
 
     items = session.query(Food) \
         .filter_by(user_id=current_user.id) \
@@ -243,7 +241,6 @@ def fooddiary():
         .order_by(Food.id.desc()).all()
 
     table = FoodTable(items)
-    # print(table.__html__())
 
     #Generate chart for page load
     chart = genfoodchart()
@@ -253,6 +250,7 @@ def fooddiary():
 @piewhole.route("/food", methods=['POST'])
 @login_required
 def fooddiary_post():
+    ''' Add to food diary'''
     session.rollback()
     food = request.form['quickentry']
     now = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -264,46 +262,29 @@ def fooddiary_post():
         .order_by(Food.id.desc()).all()
     table = FoodTable(items)
 
-    print('-- POST: Food page rendered. --')
-    print('POST - User: {}'.format(current_user.username))
-    print('POST - ID: {}'.format(current_user.id))
-    print('POST - Food: {}'.format(request.form['quickentry']))
-
-
     def update_food(food, rank, user_id, date):
         rank = session.query(Ranks).filter_by(rank=rank).first()
-
-        print('POST - in update_food function')
-        print("POST - Trying {} for date".format(date))
-        print("POST - Trying {} for food".format(food))
-        print("POST - Trying '{}' for rank".format(rank.rankdesc))
-
         newfood = Food(food=food, food_date=now, rank_id=rank.id, user_id=current_user.id)
         session.add(newfood)
         session.commit()
 
     if request.form['submit'] == 'good':
-        print('-- POST: Good food submitted --')
         update_food(food, 1, current_user.id, now)
     elif request.form['submit'] == 'ok':
-        print('-- POST: Okay food submitted --')
         update_food(food, 2, current_user.id, now)
     elif request.form['submit'] == 'bad':
-        print('-- POST: Bad food submitted --')
         update_food(food, 3, current_user.id, now)
     else:
-        print('What the hell button as pushed?')
+        logging.info("PROFILE_POST: Unknown submision made, no registered button")
 
     return redirect(url_for('fooddiary', table=table))
-    #return render_template("food.html", table=table)
 
 
 @piewhole.route("/weight", methods=['GET'])
 @login_required
 def weightinfo():
-    now = datetime.datetime.now().strftime("%Y-%m-%d")
-
-    print('-- GET: Weight page rendered. --')
+    ''' Get weight info'''
+    # now = datetime.datetime.now().strftime("%Y-%m-%d")
 
     goals = session.query(Goals) \
         .filter_by(user_id=current_user.id) \
@@ -337,22 +318,16 @@ def weightinfo():
     table = WeightTable(entries)
     chart = genweightchart()
 
-    print('GET - current goal: {}'.format(weightgoal))
-    print('GET - current weight: {}'.format(currentweight))
-    print('GET - delta: {}'.format(myround(delta)))
-
     return render_template("weight.html", goal=weightgoal, \
-                            weight=currentweight, delta=delta, table=table, chart=chart)
+                            weight=currentweight, delta=myround(delta), table=table, chart=chart)
 
 @piewhole.route("/weight", methods=['POST'])
 @login_required
 def weightinfo_post():
+    ''' Update weight info '''
     session.rollback()
     weight = request.form['quickentry']
     now = datetime.datetime.now().strftime("%Y-%m-%d")
-    print('-- POST: Weight page rendered. --')
-    print("POST - Trying {} for date".format(now))
-    print("POST - Trying {} for weight".format(weight))
 
     newweight = Weight(weight=weight, weight_date=now, user_id=current_user.id)
 
@@ -364,20 +339,15 @@ def weightinfo_post():
 @piewhole.route("/profile", methods=['GET'])
 @login_required
 def profile():
-    print('-- GET: Profile page rendered. --')
-    print('GET - User: {}'.format(current_user.username))
-    print('GET - ID: {}'.format(current_user.id))
-
-    u = session.query(Users).filter_by(id=current_user.id).first()
-    print('GET - Queried User: {}'.format(u.username))
-
+    '''
+    Get user profile details, provide temp values as needed
+    '''
+    # u = session.query(Users).filter_by(id=current_user.id).first()
     goal = session.query(Goals).filter_by(user_id=current_user.id).first()
 
     if goal:
         wtg = goal.weight_goal
         gdg = (goal.health_goal * 100)
-        print('GET - Goal Weight: {}'.format(wtg))
-        print('GET - Goal Health: {}'.format(gdg))
     else:
         flash('Please enter a weight and health goal.', 'warning')
         wtg = 0
@@ -388,40 +358,32 @@ def profile():
 @piewhole.route("/profile", methods=['POST'])
 @login_required
 def profile_post():
+    '''
+    Updates a user's profile via (user details, goals, and password)
+    '''
     session.rollback()
 
     def update_goal():
-        print('POST USER: {}'.format(current_user.username))
-        print('POST WG: {}'.format(request.form['weightgoal']))
-        print('POST HG: {}'.format(request.form['goodgoal']))
-
         weightgoal = request.form['weightgoal']
 
         try:
             goodgoal = (float(request.form['goodgoal']) * .01)
         except (ValueError) as error:
-            print('Failed: {}'.format(error))
+            logging.debut('PROFILE_POST: Failed weight update with error {}'.format(error))
             flash('Need weight and health in number format.', 'danger')
             return
 
-        print('POST: Trying to make changes')
         testweight = session.query(Goals).filter_by(user_id=current_user.id).first()
 
         if not testweight:
             if weightgoal and goodgoal > 0:
-                print('POST: New goals, so inserting.')
-                print('POST WG: {}'.format(weightgoal))
-                print('POST HG: {}'.format(goodgoal))
                 newgoals = Goals(user_id=current_user.id, weight_goal=weightgoal, health_goal=goodgoal)
-                print(newgoals)
                 session.add(newgoals)
                 session.commit()
-                print("POST: Commit done")
                 return redirect(url_for('profile'))
             else:
                 flash('Need both a weight goal and health percentage.', 'danger')
         else:
-            print('POST: Goals already exists, so updating.')
             session.query(Goals) \
                 .filter_by(user_id=current_user.id) \
                 .update({"weight_goal": weightgoal})
@@ -430,10 +392,6 @@ def profile_post():
 
 
     def update_user():
-        print('POST USER: {}'.format(current_user.username))
-        print('POST USERFORM: {}'.format(request.form['username']))
-        print('POST EMAILFORM: {}'.format(request.form['email']))
-
         username = request.form['username']
         email = request.form['email']
 
@@ -442,15 +400,11 @@ def profile_post():
         if emailtest and email != current_user.email:
             flash('That email address is already in use.', 'danger')
         else:
-            print('POST: Trying to make changes')
             session.query(Users).filter_by(id=current_user.id).update({"username": username})
             session.query(Users).filter_by(id=current_user.id).update({"email": email})
             session.commit()
-            print('POST: Changes commited')
 
     def update_password():
-        print('POST USER: {}'.format(current_user.username))
-
         pwd = request.form['originalpassword']
         pw1 = request.form['password1']
         pw2 = request.form['password2']
@@ -459,7 +413,6 @@ def profile_post():
 
         if user and check_password_hash(user.password, pwd):
             if pw1 == pw2:
-                print('POST: New passwords good.')
                 session.query(Users) \
                 .filter_by(id=current_user.id) \
                 .update({'password': generate_password_hash(pw1)})
@@ -471,18 +424,15 @@ def profile_post():
 
 
     if request.form['submit'] == 'user':
-        print('-- POST: User section submitted --')
-        logging.debug("profile_post: userid {} changed user details".format(current_user.id))
+        logging.debug("PROFILE_POST: userid {} changed user details".format(current_user.id))
         update_user()
     elif request.form['submit'] == 'goal':
-        print('-- POST: Goal section submitted --')
-        logging.debug("profile_post: userid {} changed goal details".format(current_user.id))
+        logging.debug("PROFILE_POST: userid {} changed goal details".format(current_user.id))
         update_goal()
     elif request.form['submit'] == 'password':
-        print('-- POST: Password section submitted --')
-        logging.debug("profile_post: userid {} changed passwrd details".format(current_user.id))
+        logging.debug("PROFILE_POST: userid {} changed passwrd details".format(current_user.id))
         update_password()
     else:
-        print('What the hell button as pushed?')
+        logging.info("PROFILE_POST: Unknown submision made, no registered button")
 
     return redirect(url_for('profile'))

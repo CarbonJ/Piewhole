@@ -18,7 +18,11 @@
             <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
                 <span class="sr-only">Toggle navigation</span>
             </button>
+            {% if current_user.is_authenticated() %}
+            <a href="{{ url_for('fooddiary') }}" class="navbar-brand">Piewhole</a>
+            {% else %}
             <a href="{{ url_for('index') }}" class="navbar-brand">Piewhole</a>
+            {% endif %}
         </div>
         <!-- Collection of nav links and other content for toggling -->
         <div id="navbarCollapse" class="collapse navbar-collapse">
@@ -29,6 +33,7 @@
                             <li><a href='{{ url_for('weightinfo') }}'>Weight</a></li>
                             <li><a href='{{ url_for('profile') }}'>Profile</a></li>
                             <li><a href='{{ url_for('logout') }}'>Logout</a></li>
+                            <li><a href='{{ url_for('index') }}'>About</a></li>
                     {% else %}
                         <li><a href="{{ url_for('login') }}">Login</a></li>
                     {% endif %}
