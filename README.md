@@ -30,7 +30,6 @@ Current Application: https://piewhole.carbontwelve.org (thank you Heroku)
   - [ ] Add debug logging
   - [ ] Add to testing scripts
   - [x] Rounding function
-  - [ ] iOS homescreen icon
 - [ ] Release
   - [ ] Tag as 1.0 release
   - [ ] Create development branch
@@ -38,6 +37,7 @@ Current Application: https://piewhole.carbontwelve.org (thank you Heroku)
   - [x] Add license
 - [ ] 2.0 Features
   - [ ]  Add 'secondary_range' to weight chart with percent heathly food
+  - [ ]  iOS homescreen icon
   - [ ]  Who knows....
 
 # Obligatory License
