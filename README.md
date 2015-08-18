@@ -27,7 +27,7 @@ Current Application: https://piewhole.carbontwelve.org (thank you Heroku)
   - [x] Add email checking to login function
   - [x] What if values of weight/health are NULL
   - [x] Clean index page
-  - [ ] Add debug logging
+  - [x] Add debug logging
   - [ ] Add to testing scripts
   - [x] Rounding function
 - [ ] Release
