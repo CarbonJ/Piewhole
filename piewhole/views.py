@@ -1,5 +1,6 @@
 import logging
 import datetime
+from datetime import date, timedelta
 
 import pygal
 from pygal.style import Style
@@ -96,20 +97,20 @@ def genweightchart():
     chart = line_chart.render(is_unicode=True)
     return chart
 
-def genfoodchart():
+def genfoodchart(start, end):
     '''Generate food chart with Pygal'''
     now = datetime.datetime.now().strftime("%Y-%m-%d")
     goodcount = session.query(Food) \
         .filter_by(user_id=current_user.id) \
-        .filter_by(food_date=now).join(Ranks) \
+        .filter(Food.food_date.between(start, end)).join(Ranks) \
         .filter_by(rank=1).add_columns(Ranks.rank).count()
     okaycount = session.query(Food) \
         .filter_by(user_id=current_user.id) \
-        .filter_by(food_date=now).join(Ranks) \
+        .filter(Food.food_date.between(start, end)).join(Ranks) \
         .filter_by(rank=2).add_columns(Ranks.rank).count()
     badcount = session.query(Food) \
         .filter_by(user_id=current_user.id) \
-        .filter_by(food_date=now).join(Ranks) \
+        .filter(Food.food_date.between(start, end)).join(Ranks) \
         .filter_by(rank=3).add_columns(Ranks.rank).count()
 
     custom_style = Style(
@@ -234,7 +235,8 @@ def logout():
 @login_required
 def fooddiary():
     '''Quick entry food to food diary'''
-    now = datetime.datetime.now().strftime("%Y-%m-%d")
+    now = date.today()
+    # prev = date.today() - timedelta(days=10)
 
     items = session.query(Food) \
         .filter_by(user_id=current_user.id) \
@@ -246,7 +248,7 @@ def fooddiary():
     table = FoodTable(items)
 
     #Generate chart for page load
-    chart = genfoodchart()
+    chart = genfoodchart(now, now)
 
     return render_template("food.html", table=table, chart=chart)
 
@@ -256,7 +258,8 @@ def fooddiary_post():
     ''' Add to food diary'''
     session.rollback()
     food = request.form['quickentry']
-    now = datetime.datetime.now().strftime("%Y-%m-%d")
+    now = date.today()
+    # prev = date.today() - timedelta(days=10)
 
     items = session.query(Food) \
         .filter_by(user_id=current_user.id) \
@@ -281,6 +284,28 @@ def fooddiary_post():
         logging.info("PROFILE_POST: Unknown submision made, no registered button")
 
     return redirect(url_for('fooddiary', table=table))
+
+
+@piewhole.route("/foodhistory", methods=['GET'])
+@login_required
+def foodhistory():
+    '''Review food entries for last 10 days'''
+    now = date.today()
+    prev = date.today() - timedelta(days=30)
+
+    items = session.query(Food) \
+        .filter_by(user_id=current_user.id) \
+        .filter(Food.food_date.between(prev, now)) \
+        .join(Ranks) \
+        .add_columns(Food.food, Food.food_date, Ranks.rankdesc) \
+        .order_by(Food.id.desc()).all()
+
+    table = FoodTable(items)
+
+    #Generate chart for page load
+    chart = genfoodchart(prev, now)
+
+    return render_template("food_history.html", table=table, chart=chart)
 
 
 @piewhole.route("/weight", methods=['GET'])
