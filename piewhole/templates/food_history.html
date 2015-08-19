@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <!-- HEADER START -->
+    <div class="row" >
+        <class='col-sm-12'>
+        <h1>Food History</h1>
+    </div>
+    <!-- HEADER END -->
+    <!-- MAIN BODY START-->
+    <div class="row">
+        <div class="col-md-6">
+            <!-- CHART -->
+            {{chart|safe}}
+        </div>
+        <div class="col-md-6">
+            <!-- TABLE -->
+            <div class="table-wrapper">
+            {{ table }}
+            </div>
+        </div>
+    </div>
+    <!-- MAIN BODY END -->
+</div>
+{% endblock %}
