@@ -167,6 +167,8 @@ def register_user_post():
     password1 = request.form['password1']
     password2 = request.form['password2']
     user = session.query(Users).filter_by(email=email).first()
+    logging.debug("REGISTER_USER_POST: username = '{}' ".format(username))
+    logging.debug("REGISTER_USER_POST: email = '{}' ".format(email))
 
     if user:
         logging.info("REGISTER_USER_POST: '{}' already exists, warning user".format(email))
@@ -203,10 +205,11 @@ def login():
 @piewhole.route("/login", methods=['POST'])
 def login_post():
     '''Authenticate user'''
-
     email = request.form['email']
     password = request.form['password']
     user = session.query(Users).filter_by(email=email).first()
+    logging.debug("LOGIN_POST: email = '{}' ".format(email))
+
     if not user or not check_password_hash(user.password, password):
         logging.info("LOGIN_POST: '{}' can't login, warning user".format(email))
         flash('Incorrect user name or password', 'danger')
