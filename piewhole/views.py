@@ -274,11 +274,11 @@ def fooddiary_post():
         session.add(newfood)
         session.commit()
 
-    if request.form['submit'] == 'good':
+    if request.form['submit'] == 'good' and food is not '':
         update_food(food, 1, current_user.id, now)
-    elif request.form['submit'] == 'ok':
+    elif request.form['submit'] == 'ok' and food is not '':
         update_food(food, 2, current_user.id, now)
-    elif request.form['submit'] == 'bad':
+    elif request.form['submit'] == 'bad' and food is not '':
         update_food(food, 3, current_user.id, now)
     else:
         logging.info("PROFILE_POST: Unknown submision made, no registered button")
@@ -357,10 +357,12 @@ def weightinfo_post():
     weight = request.form['quickentry']
     now = datetime.datetime.now().strftime("%Y-%m-%d")
 
-    newweight = Weight(weight=weight, weight_date=now, user_id=current_user.id)
-
-    session.add(newweight)
-    session.commit()
+    if weight == '':
+        pass
+    else:
+        newweight = Weight(weight=weight, weight_date=now, user_id=current_user.id)
+        session.add(newweight)
+        session.commit()
 
     return redirect(url_for('weightinfo'))
 
