@@ -29,7 +29,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <!-- <li><a href="#">Login</a></li> -->
                  {% if current_user.is_authenticated() %}
-                            <li><a href='{{ url_for('fooddiary') }}'>Food Diary</a></li>
+                            <li><a href='{{ url_for('fooddiary') }}'>Today's Food</a></li>
                             <li><a href='{{ url_for('weightinfo') }}'>Weight</a></li>
                             <li><a href='{{ url_for('foodhistory') }}'>Food History</a></li>
                             <li><a href='{{ url_for('profile') }}'>Profile</a></li>
