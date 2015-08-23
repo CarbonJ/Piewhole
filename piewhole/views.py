@@ -51,24 +51,25 @@ def genweightchart():
     '''Generate weight chart with Pygal'''
     weighthistory = session.query(Weight) \
         .filter_by(user_id=current_user.id) \
-        .order_by(Weight.id.desc()) \
+        .order_by(Weight.id.asc()) \
         .all()
 
     maxweight = session.query(Weight) \
         .filter_by(user_id=current_user.id) \
-        .order_by(Weight.id.desc()) \
+        .order_by(Weight.weight.desc()) \
         .first()
 
     if maxweight is None:
         maxrange = 100
     else:
-        maxrange = (int(maxweight.weight) + 50)
+        maxrange = (int(maxweight.weight) + 5)
 
     custom_style = Style(
                 background='transparent',
                 value_font_size=24,
                 title_font_size=36,
-                margin=1,
+                label_font_size=24,
+                margin=5,
                 plot_background='transparent',
                 foreground='#53E89B',
                 foreground_strong='#53A0E8',
@@ -78,9 +79,9 @@ def genweightchart():
                 transition='400ms ease-in',
                 colors=('#5cb85c', '#f0ad4e', '#d9534f'))
     config = Config()
-    config.show_legend = True
-    config.legend_at_bottom=True
-    config.y_labels = range(0, maxrange, 25)
+    config.show_legend = False
+    config.y_labels = range(0, maxrange, 5)
+    config.margin_bottom=50
     config.human_readable = True
     config.fill = True
     config.style=custom_style
