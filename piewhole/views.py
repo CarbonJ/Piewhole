@@ -356,7 +356,7 @@ def weightinfo_post():
     ''' Update weight info '''
     session.rollback()
     weight = request.form['quickentry']
-    now = datetime.datetime.now().strftime("%Y-%m-%d")
+    now = date.today()
 
     if weight == '':
         pass
