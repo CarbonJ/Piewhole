@@ -21,20 +21,33 @@ from flask.ext.login import login_user
 from flask.ext.login import login_required
 from flask.ext.login import current_user
 from flask.ext.login import logout_user
-from flask_table import Table, Col
+from flask_table import Table, Col, LinkCol
 
 from validate_email import validate_email
 
 logging.basicConfig(filename="piewhole.log", level=logging.DEBUG)
 
 
+class Item(object):
+    def __init__(self, id, name, food_date, rankdesc):
+        self.id = id
+        self.food = name
+        self.food_date = food_date
+        self.rankdesc = rankdesc
+
+
+    # view = LinkCol('View', 'view_fn', url_kwargs=dict(id='id'))
+    # This will create a link to the address given by url_for('view_fn',
+    # id=item.id) for each item in the iterable.
+
 class FoodTable(Table):
     '''Column configuration for food entries'''
     classes = ["table table-striped"]
+    id = Col('ID')
+    #id = LinkCol('ID', 'viewthis', url_kwargs=dict(id='id'))
     food = Col('Food Entry')
     food_date = Col('Date')
     rankdesc = Col('Rank')
-
 
 class WeightTable(Table):
     '''Column configuration for weight entries'''
@@ -243,7 +256,7 @@ def fooddiary():
         .filter_by(user_id=current_user.id) \
         .filter_by(food_date=now) \
         .join(Ranks) \
-        .add_columns(Food.food, Food.food_date, Ranks.rankdesc) \
+        .add_columns(Food.id, Food.food, Food.food_date, Ranks.rankdesc) \
         .order_by(Food.id.desc()).all()
 
     table = FoodTable(items)
@@ -298,7 +311,7 @@ def foodhistory():
         .filter_by(user_id=current_user.id) \
         .filter(Food.food_date.between(prev, now)) \
         .join(Ranks) \
-        .add_columns(Food.food, Food.food_date, Ranks.rankdesc) \
+        .add_columns(Food.id, Food.food, Food.food_date, Ranks.rankdesc) \
         .order_by(Food.id.desc()).all()
 
     table = FoodTable(items)
