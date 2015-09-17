@@ -300,8 +300,6 @@ def fooddiary_post():
 @piewhole.route("/food/<int:id>")
 def displayfoodentry(id):
     foodentry = session.query(Food).filter_by(id=id).first()
-    print(id)
-    print(foodentry)
     return render_template("foodentry.html", foodentry=foodentry)
 
 @piewhole.route("/foodhistory", methods=['GET'])
