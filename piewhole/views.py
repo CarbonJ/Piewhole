@@ -35,7 +35,6 @@ class Item(object):
         self.food_date = food_date
         self.rankdesc = rankdesc
 
-
     # view = LinkCol('View', 'view_fn', url_kwargs=dict(id='id'))
     # This will create a link to the address given by url_for('view_fn',
     # id=item.id) for each item in the iterable.
@@ -43,11 +42,10 @@ class Item(object):
 class FoodTable(Table):
     '''Column configuration for food entries'''
     classes = ["table table-striped"]
-    id = Col('ID')
-    #id = LinkCol('ID', 'viewthis', url_kwargs=dict(id='id'))
     food = Col('Food Entry')
     food_date = Col('Date')
     rankdesc = Col('Rank')
+    id = LinkCol('Edit', 'displayfoodentry', url_kwargs=dict(id='id'))
 
 class WeightTable(Table):
     '''Column configuration for weight entries'''
@@ -299,6 +297,12 @@ def fooddiary_post():
 
     return redirect(url_for('fooddiary', table=table))
 
+@piewhole.route("/food/<int:id>")
+def displayfoodentry(id):
+    foodentry = session.query(Food).filter_by(id=id).first()
+    print(id)
+    print(foodentry)
+    return render_template("foodentry.html", foodentry=foodentry)
 
 @piewhole.route("/foodhistory", methods=['GET'])
 @login_required
