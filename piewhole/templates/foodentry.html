@@ -5,13 +5,40 @@
     <!-- HEADER START -->
     <div class="row" >
         <class='col-sm-12'>
-        <h1>Food Entry: {{ foodentry.food }}</h1>
+        <h1>Update Entry</h1>
     </div>
     <!-- HEADER END -->
     <!-- MAIN BODY START-->
+    <!--
     <p>{{ foodentry.id }}</p>
     <p>{{ foodentry.food }}</p>
     <p>{{ foodentry.rank_id }}</p>
+    -->
+    <div class="row">
+        <form class="form-horizontal" method="POST">
+            <form role="form" method="POST">
+                <fieldset>
+                </fieldset>
+                <legend>Food: {{ foodentry.food }}</legend>
+                    <div class="form-group">
+                        <label class="col-lg-12" for="food">Food</label>
+                        <div class="col-sm-12">
+                            <input id="food" name="food" type="text" placeholder="{{ foodentry.food }}" value="{{ foodentry.food }}"class="form-control input-md">
+
+                        </div>
+                    </div>
+
+                    <!-- Rank Buttons -->
+                    <div class="row text-center">
+                        <div class="btn-group">
+                            <button id="submit" name="submit" value="good" type="submit" class="btn btn-success">Good</button>
+                            <button id="submit" name="submit" value="ok" type="submit" class="btn btn-warning">Okay</button>
+                            <button id="submit" name="submit" value="bad" type="submit" class="btn btn-danger">Bad</button>
+                        </div>
+                    </div>
+
+            </form>
+    </div>
     <!-- MAIN BODY END -->
 </div>
 {% endblock %}
