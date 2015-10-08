@@ -57,6 +57,22 @@ class WeightTable(Table):
 def myround(num):
     return(round(num * (10**2)) / float(10**2))
 
+# def update_food(food, rank, user_id, date):
+#     rank = session.query(Ranks).filter_by(rank=rank).first()
+#     now = datetime.datetime.now().strftime("%Y-%m-%d")
+#     newfood = Food(food=food, food_date=now, rank_id=rank.id, user_id=current_user.id)
+#     session.add(newfood)
+#     session.commit()
+
+#     if request.form['submit'] == 'good' and food is not '':
+#         update_food(food, 1, current_user.id, now)
+#     elif request.form['submit'] == 'ok' and food is not '':
+#         update_food(food, 2, current_user.id, now)
+#     elif request.form['submit'] == 'bad' and food is not '':
+#         update_food(food, 3, current_user.id, now)
+#     else:
+#         logging.info("PROFILE_POST: Unknown submision made, no registered button")
+
 
 def genweightchart():
     '''Generate weight chart with Pygal'''
@@ -297,10 +313,33 @@ def fooddiary_post():
 
     return redirect(url_for('fooddiary', table=table))
 
-@piewhole.route("/food/<int:id>")
+@piewhole.route("/food/<int:id>", methods=['GET'])
 def displayfoodentry(id):
     foodentry = session.query(Food).filter_by(id=id).first()
     return render_template("foodentry.html", foodentry=foodentry)
+
+@piewhole.route("/food/<int:id>", methods = ['POST'])
+def editfoodentry(id):
+    food = request.form["food"]
+
+    #clear any back/stale sessions
+    session.rollback()
+
+    def alter_food(food, rank):
+        session.query(Food).filter_by(id=id).update({"food": food})
+        session.query(Food).filter_by(id=id).update({"rank_id": rank})
+        session.commit()
+
+    if request.form['submit'] == 'good' and food is not '':
+        alter_food(food, 1,)
+    elif request.form['submit'] == 'ok' and food is not '':
+        alter_food(food, 2,)
+    elif request.form['submit'] == 'bad' and food is not '':
+        alter_food(food, 3,)
+    else:
+        logging.info("PROFILE_POST: Unknown submision made, no registered button")
+
+    return redirect(url_for('foodhistory'))
 
 @piewhole.route("/foodhistory", methods=['GET'])
 @login_required
